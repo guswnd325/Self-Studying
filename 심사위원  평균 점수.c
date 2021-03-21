@@ -56,13 +56,14 @@ int main(void) {
 	for (i = 0; i < 7; i++) {
 		printf("%d번째 심사위원의 점수 (0 ~ 100) : ", i + 1);
 		scanf("%d", &score[i]);
-		sum += score[i];
-		if (score[i] < -1 && score[i] > 101) {
-			printf("범위를 초과하였습니다.\n");
-		}
-		else {
+			if (score[i] < -1 && score[i] > 101) {
 			continue;
 		}
+		else {
+			printf("오류가 발생했습니다");
+			return 0;
+		}
+		sum += score[i];
 	}
 	int big;
 	int small;
