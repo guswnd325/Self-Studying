@@ -48,7 +48,7 @@ int main() {
     int y = 0;
 //
 
-    unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\dpfthem.bmp");
+    unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\images.bmp");
 
     // 
     for (i = width * height; i > 0; i--) {
