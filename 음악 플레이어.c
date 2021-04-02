@@ -10,34 +10,34 @@ unsigned char* readBMP(const char* filename)
 	FILE* f = fopen(filename, "rb");
 	unsigned char info[54];
 
-	
+
 	fread(info, sizeof(unsigned char), 54, f);
 
-	
+
 	width = *(int*)&info[18];
 	height = *(int*)&info[22];
 
-	
+
 	int size = 3 * width * height;
 	unsigned char* data = (unsigned char*)malloc(size);
 
-	
+
 	fread(data, sizeof(unsigned char), size, f);
 	fclose(f);
-	
+
 	int j;
 	for (j = 0; j < size; j += 3)
 	{
-		
+
 		unsigned char tmp = data[j];
 		data[j] = data[j + 2];
 		data[j + 2] = tmp;
 	}
 
-	return data; 
+	return data;
 }
 
-void gotoxy(int x , int y)
+void gotoxy(int x, int y)
 {
 	COORD Pos;
 	Pos.X = x;
@@ -56,7 +56,7 @@ void menudraw() {
 }
 
 void start() {
-	system("mode con cols=56 lines=20 | title HyeonJoong 음악 플레이어!");
+	system("mode con cols=60 lines=20 | title HyeonJoong 음악 플레이어!");
 }
 void player() {
 	system("mode con cols=70 lines=20");
@@ -68,7 +68,7 @@ int KeyBoradInput() {
 	if (keycode == 'p' || keycode == 'P') {
 		return 0;
 	}
-	if (keycode == 'm' || keycode == 'M' ) {
+	if (keycode == 'm' || keycode == 'M') {
 		return 1;
 	}
 	if (keycode == 'e' || keycode == 'E') {
@@ -110,7 +110,7 @@ int main() {
 	int reload = 0;
 	int a = KeyBoradInput();
 	while (reload != 1) {
-		
+
 		key = 0;
 		reload = 0;
 		switch (a)
