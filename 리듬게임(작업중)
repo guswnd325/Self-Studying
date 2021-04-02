@@ -1,0 +1,274 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <Windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <mmsystem.h>
+
+void gotoxy(int x, int y)
+{
+	COORD Pos;
+	Pos.X = x;
+	Pos.Y = y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+
+int width, height;
+
+unsigned char* readBMP(const char* filename)
+{
+	FILE* f = fopen(filename, "rb");
+	unsigned char info[54];
+
+
+	fread(info, sizeof(unsigned char), 54, f);
+
+
+	width = *(int*)&info[18];
+	height = *(int*)&info[22];
+
+
+	int size = 3 * width * height;
+	unsigned char* data = (unsigned char*)malloc(size);
+
+
+	fread(data, sizeof(unsigned char), size, f);
+	fclose(f);
+
+	int j;
+	for (j = 0; j < size; j += 3)
+	{
+
+		unsigned char tmp = data[j];
+		data[j] = data[j + 2];
+		data[j + 2] = tmp;
+	}
+
+	return data;
+}
+
+void gameframe() {
+	// 위
+	printf("\u250c");
+	int i;
+	for (i = 0; i < 40; i++) {
+		if (i == 10 || i == 20 || i == 30) {
+			printf("\u252c");
+		}
+		else {
+			printf("\u2500");
+		}
+	}
+	// 오른쪽 , 칸
+	printf("\u2510");
+	for (i = 0; i < 30; i++) {
+			gotoxy(41, i + 1);
+			printf("\u2502");
+	}
+	gotoxy(41, i + 1);
+	printf("\u2524");
+	gotoxy(41, i + 1);
+	printf("\u2502");
+	gotoxy(41, i + 2);
+	printf("\u2502");
+	gotoxy(41, i + 3);
+	printf("\u2502");
+	
+	
+	for (i = 0; i < 30; i++) {
+		gotoxy(31, i + 1);
+		printf("\u2502");
+	}
+	gotoxy(31, i + 1);
+	printf("\u2502");
+	gotoxy(31, i + 2);
+	printf("\u2502");
+	gotoxy(31, i + 3);
+	printf("\u2502");
+	gotoxy(31, i + 1);
+	printf("\u2534");
+	for (i = 0; i < 30; i++) {
+		gotoxy(21, i + 1);
+		printf("\u2502");
+	}
+	gotoxy(21, i + 1);
+	printf("\u2502");
+	gotoxy(21, i + 2);
+	printf("\u2502");
+	gotoxy(21, i + 3);
+	printf("\u2502");
+	gotoxy(21, i + 1);
+	printf("\u2534");
+	for (i = 0; i < 30; i++) {
+		gotoxy(11, i + 1);
+		printf("\u2502");
+	}
+	gotoxy(11, i + 1);
+	printf("\u2502");
+	gotoxy(11, i + 2);
+	printf("\u2502");
+	gotoxy(11, i + 3);
+	printf("\u2502");
+	gotoxy(11, i + 1);
+	printf("\u2534");
+
+	// 왼쪽 줄
+	for (i = 0; i < 30; i++) {
+			gotoxy(0, i + 1);
+			printf("\u2502");	
+	}
+	gotoxy(0, i + 1);
+	printf("\u251c");
+	
+	// 아래
+	for (i = 0; i < 40; i++) {
+		if (i == 10 || i == 20 || i == 30) {
+			gotoxy(i, 42);
+			printf("\u253c");
+		}
+		else {
+		gotoxy(i, 42);
+			printf("\u2500");
+		}
+	}
+
+	// 판정선
+	for (i = 0; i < 4; i++) {
+		gotoxy(0, i + 30);
+		printf("\u2502");
+	}
+	gotoxy(0, i + 30);
+	printf("\u2514");
+	for (i = 0; i < 40; i++) {
+		if (i == 10 || i == 20 || i == 30) {
+			gotoxy(i, 42);
+			printf("\u2534");
+		}
+		else {
+			gotoxy(i+1, 42);
+			printf("\u2500");
+		}
+	}
+	gotoxy(i + 1, 42);
+	printf("\u2518");
+}
+
+void menudraw() {
+	gotoxy(22, 14);
+	printf("게임 시작 = P\n");
+	gotoxy(23, 15);
+	printf("조작법 = C\n");
+	gotoxy(24, 16);
+	printf("종료 = E\n");
+}
+
+void start() {
+	system("mode con cols=60 lines=20 | title 리듬게임");
+}
+void game() {
+	system("mode con cols=60 lines=40");
+}
+
+int KeyBoradInput() {
+	int keycode;
+	keycode = getch();
+	if (keycode == 'p' || keycode == 'P') {
+		return 0;
+	}
+	if (keycode == 'c'|| keycode == 'C') {
+		return 1;
+	}
+	if (keycode == 'e' || keycode == 'E') {
+		return 2;
+	}
+}
+
+
+void title() {
+	printf("\n\n\n");
+
+	printf("        #       #    #    #    ###     #     ###          \n");
+	printf("        # #   # #    #    #   #        #    #             \n");
+	printf("        #  # #  #    #    #    ###     #   #              \n");
+	printf("        #   #   #    #    #       #    #    #             \n");
+	printf("        #   #   #     ####     ###     #     ####         \n");
+
+
+}
+int main() {
+	HWND myconsole = GetConsoleWindow();
+	HDC dc = GetDC(myconsole);
+	int i;
+	COLORREF color = RGB(0, 255, 0);
+	int x = 0;
+	int y = 0;
+	FILE* fp;
+	FILE* fps;
+	start();
+	title();
+	menudraw();
+	int c;
+	int music;
+	int choice;
+	int key = 0;
+	int reload = 0;
+	int a = KeyBoradInput();
+		key = 0;
+		reload = 0;
+		switch (a)
+		{
+		case 0: {
+			system("cls");
+			fp = fopen("C:\\Users\\gksrp\\Desktop\\44\\23\\musiclist.txt", "r");
+			printf("==================================\n");
+			printf("(1)\n");
+			while ((c = fgetc(fp)) != EOF) {
+				putchar(c);
+			}
+			printf("\n==================================");
+			printf("\n");
+			printf("==================================\n");
+			printf("(2)\n");
+			fps = fopen("C:\\Users\\gksrp\\Desktop\\44\\23\\musiclist2.txt", "r");
+			while ((c = fgetc(fps)) != EOF) {
+				putchar(c);
+			}
+			printf("\n==================================");
+			fclose(fp);
+			printf("\n트실 음악을 입력해주세요 : ");
+			scanf_s("%d", &music);
+
+			if (music == 1) { // 주문을 외울게
+				game();
+				system("cls");
+				gameframe();
+				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\hqdefaulst.bmp"); //   
+				x = 0; y = 0;
+				for (i = width * height; i > 0; i--) {
+					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
+					SetPixel(dc, (x + 360), (y + 30), color);
+					x++;
+					if (x % width == 0) {
+						x = 0;
+					}
+					if (i % width == 0) {
+						y++;
+					}
+				}
+				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_SYNC);
+			}
+		case 1: { // 조작법
+			system("cls");
+			break;
+		}
+		case 2: { // 종료
+			return 0;
+			break;
+		}
+		default: {
+			return 0;
+			break;
+		}
+		}
+	}
+	return 0;
+}
