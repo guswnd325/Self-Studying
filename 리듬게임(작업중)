@@ -177,10 +177,11 @@ void menudraw() {
 }
 
 void start() {
-	system("mode con cols=60 lines=20 | title 리듬게임");
+	system("mode con cols=60 lines=20 | title 리듬게임 by HyeonJoong");
 }
+
 void game() {
-	system("mode con cols=65 lines=41");
+	system("mode con cols=65 lines=41 | title 리듬게임 by HyeonJoong");
 }
 
 int KeyBoradInput() {
@@ -212,7 +213,8 @@ void title() {
 
 
 }
-int main() {
+
+int main(void) {
 	HWND myconsole = GetConsoleWindow();
 	HDC dc = GetDC(myconsole);
 	int i;
@@ -237,18 +239,18 @@ int main() {
 		reload = 0;
 		switch (a)
 		{
-		case 0: {
+		case 0: { // 음악 선택 메뉴
 			system("cls");
 			fp = fopen("C:\\Users\\gksrp\\Desktop\\44\\23\\musiclist.txt", "r");
 			printf("==================================\n");
-			printf("(1)\n");
+			printf("[1]\n");
 			while ((c = fgetc(fp)) != EOF) {
 				putchar(c);
 			}
 			printf("\n==================================");
 			printf("\n\n");
 			printf("==================================\n");
-			printf("(2)\n");
+			printf("[2]\n");
 			fps = fopen("C:\\Users\\gksrp\\Desktop\\44\\23\\musiclist2.txt", "r");
 			while ((c = fgetc(fps)) != EOF) {
 				putchar(c);
