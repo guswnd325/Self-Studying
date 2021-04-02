@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mmsystem.h>
-#define UP 1
-#define DOWN 0
 int width, height;
 
 unsigned char* readBMP(const char* filename)
@@ -48,12 +46,12 @@ void gotoxy(int x , int y)
 }
 
 void menudraw() {
-	gotoxy(24, 14);
+	gotoxy(22, 14);
 	printf("음악 듣기 = p\n");
 	/* 메뉴 2 gotoxy(26, 15);
 	printf(" = m\n");
 	*/
-	gotoxy(27, 16);
+	gotoxy(24, 16);
 	printf("종료 = esc\n");
 }
 
@@ -75,6 +73,9 @@ int KeyBoradInput() {
 	}
 	if (keycode == 'e' || keycode == 'E') {
 		return 2;
+	}
+	if (keycode == 'r' || keycode == 'R') {
+		return 3;
 	}
 }
 
@@ -104,7 +105,13 @@ int main() {
 	menudraw();
 	int c;
 	int music;
+	int choice;
+	int key = 0;
+	int reload = 0;
 	int a = KeyBoradInput();
+	while (reload != 1) {
+		key = 0;
+		reload = 0;
 		switch (a)
 		{
 		case 0: {
@@ -135,32 +142,6 @@ int main() {
 
 				for (i = width * height; i > 0; i--) {
 					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
-					SetPixel(dc, (x +300), (y + 50), color);
-					x++;
-					if (x % width == 0) {
-						x = 0;
-					}
-					if (i % width == 0) {
-						y++;
-					}
-				}
-				gotoxy(10, 9);
-				printf("곡 이름 : 주문을 외울게\n");
-				gotoxy(10, 10);
-				printf("아티스트 : M2U");
-				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_SYNC);
-				while (1) {
-					Sleep(100);
-				}
-			}
-			if (music == 2) {
-				system("cls");
-				player();
-				Sleep(100);
-				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.bmp");
-
-				for (i = width * height; i > 0; i--) {
-					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
 					SetPixel(dc, (x + 300), (y + 50), color);
 					x++;
 					if (x % width == 0) {
@@ -170,17 +151,43 @@ int main() {
 						y++;
 					}
 				}
+				
 				gotoxy(10, 9);
-				printf("곡 이름 : 무야호 리믹스\n");
+				printf("곡 이름 : 주문을 외울게\n");
 				gotoxy(10, 10);
-				printf("아티스트 : JEFF");
-				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.wav"), NULL, SND_SYNC);
-				while (1) {
-					Sleep(100);
-				}
+				printf("아티스트 : M2U");
+				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_SYNC);
 			}
-			break;
 		}
+
+			  if (music == 2) {
+				  system("cls");
+				  player();
+				  Sleep(100);
+				  unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.bmp");
+
+				  for (i = width * height; i > 0; i--) {
+					  color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
+					  SetPixel(dc, (x + 300), (y + 50), color);
+					  x++;
+					  if (x % width == 0) {
+						  x = 0;
+					  }
+					  if (i % width == 0) {
+						  y++;
+					  }
+				  }
+				  gotoxy(10, 9);
+				  printf("곡 이름 : 무야호 리믹스\n");
+				  gotoxy(10, 10);
+				  printf("아티스트 : JEFF");
+				  PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.wav"), NULL, SND_SYNC);
+				  while (1) {
+					  Sleep(100);
+				  }
+			  }
+			  break;
+
 
 		case 1: {
 			system("cls");
@@ -194,6 +201,7 @@ int main() {
 			return 0;
 			break;
 		}
-	}	
+		}
+	}
 	return 0;
 }
