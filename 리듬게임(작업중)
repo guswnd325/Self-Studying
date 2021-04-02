@@ -12,6 +12,16 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
+void Score(int score) {
+		gotoxy(45, 15);
+		printf("스코어 : %d", score);
+}
+
+void Combo(int combo) {
+	gotoxy(45, 17);
+	printf(" 콤보  : %d", combo);
+}
+
 int width, height;
 
 unsigned char* readBMP(const char* filename)
@@ -150,6 +160,11 @@ void gameframe() {
 	}
 	gotoxy(i + 1, 42);
 	printf("\u2518");
+	printf("\n\n");
+	printf("    ");
+	system("pause");
+	printf("\n\n");
+	printf("  (종료 : E) (돌아가기 : R) (노트 : DFHJ) (개발자 : HyeonJoong)");
 }
 
 void menudraw() {
@@ -165,7 +180,7 @@ void start() {
 	system("mode con cols=60 lines=20 | title 리듬게임");
 }
 void game() {
-	system("mode con cols=60 lines=40");
+	system("mode con cols=65 lines=41");
 }
 
 int KeyBoradInput() {
@@ -179,6 +194,9 @@ int KeyBoradInput() {
 	}
 	if (keycode == 'e' || keycode == 'E') {
 		return 2;
+	}
+	if (keycode == 'r' || keycode == 'R') {
+		return 3;
 	}
 }
 
@@ -201,6 +219,8 @@ int main() {
 	COLORREF color = RGB(0, 255, 0);
 	int x = 0;
 	int y = 0;
+	int score = 0;
+	int combo = 0;
 	FILE* fp;
 	FILE* fps;
 	start();
@@ -212,6 +232,7 @@ int main() {
 	int key = 0;
 	int reload = 0;
 	int a = KeyBoradInput();
+	while (reload != 1) {
 		key = 0;
 		reload = 0;
 		switch (a)
@@ -225,7 +246,7 @@ int main() {
 				putchar(c);
 			}
 			printf("\n==================================");
-			printf("\n");
+			printf("\n\n");
 			printf("==================================\n");
 			printf("(2)\n");
 			fps = fopen("C:\\Users\\gksrp\\Desktop\\44\\23\\musiclist2.txt", "r");
@@ -234,7 +255,8 @@ int main() {
 			}
 			printf("\n==================================");
 			fclose(fp);
-			printf("\n트실 음악을 입력해주세요 : ");
+			printf("\n");
+			printf("\n음악을 선택해주세요 : ");
 			scanf_s("%d", &music);
 
 			if (music == 1) { // 주문을 외울게
@@ -245,7 +267,7 @@ int main() {
 				x = 0; y = 0;
 				for (i = width * height; i > 0; i--) {
 					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
-					SetPixel(dc, (x + 360), (y + 30), color);
+					SetPixel(dc, (x + 380), (y + 30), color);
 					x++;
 					if (x % width == 0) {
 						x = 0;
@@ -254,8 +276,52 @@ int main() {
 						y++;
 					}
 				}
-				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_SYNC);
+				Score(score);
+				Combo(combo);
+				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
+				choice = KeyBoradInput();
+				if (choice == 3) {
+					PlaySound(NULL, NULL, 0);
+					continue;
+				}
+				if (choice == 2) {
+					return 0;
+				}
 			}
+			/*
+			if (music == 2) { // 2번쨰 노래
+				game();
+				system("cls");
+				gameframe();
+				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\두번쨰노래.bmp"); 
+				x = 0; y = 0;
+				for (i = width * height; i > 0; i--) {
+					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
+					SetPixel(dc, (x + 380), (y + 30), color);
+					x++;
+					if (x % width == 0) {
+						x = 0;
+					}
+					if (i % width == 0) {
+						y++;
+					}
+				}
+				Score(score);
+				Combo(combo);
+				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\두번쨰노래.wav"), NULL, SND_ASYNC);
+				choice = KeyBoradInput();
+				if (choice == 3) {
+					PlaySound(NULL, NULL, 0);
+					continue;
+				}
+				if (choice == 2) {
+					return 0;
+				}
+			}
+			*/
+			break;
+		}
+		
 		case 1: { // 조작법
 			system("cls");
 			break;
