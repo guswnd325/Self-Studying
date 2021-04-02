@@ -110,6 +110,7 @@ int main() {
 	int reload = 0;
 	int a = KeyBoradInput();
 	while (reload != 1) {
+		
 		key = 0;
 		reload = 0;
 		switch (a)
@@ -155,18 +156,17 @@ int main() {
 				gotoxy(10, 9);
 				printf("곡 이름 : 주문을 외울게\n");
 				gotoxy(10, 10);
-				printf("아티스트 : M2U");
+				printf("아티스트 : M2U\n");
 				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
-					choice = KeyBoradInput();
-					if (getch('r') || getch('R')) {
-						PlaySound(NULL, NULL, 0);
-					}
-					else {
-						reload = 1;
-						return 0;
-					}	
+				choice = KeyBoradInput();
+				if (choice == 3) {
+					PlaySound(NULL, NULL, 0);
+					continue;
+				}
+				if (choice == 2) {
+					return 0;
+				}
 			}
-
 			if (music == 2) {
 				system("cls");
 				player();
@@ -184,23 +184,22 @@ int main() {
 						y++;
 					}
 				}
-				gotoxy(10, 9);
 				printf("돌아가기 = r, 종료 = e");
+				gotoxy(10, 9);
 				printf("곡 이름 : 무야호 리믹스\n");
 				gotoxy(10, 10);
 				printf("아티스트 : JEFF");
 				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.wav"), NULL, SND_ASYNC);
 				choice = KeyBoradInput();
-				if (getch('r') || getch('R')) {
+				if (choice == 3) {
 					PlaySound(NULL, NULL, 0);
+					continue;
 				}
-				else {
-					reload = 1;
+				if (choice == 2) {
 					return 0;
 				}
-				break;
 			}
-		}	  
+		}
 		case 1: {
 			system("cls");
 			break;
