@@ -139,7 +139,7 @@ int main() {
 				system("cls");
 				player();
 				Sleep(100);
-				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\hqdefault.bmp");
+				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\hqdefault.bmp"); //   
 				x = 0; y = 0;
 				for (i = width * height; i > 0; i--) {
 					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
@@ -157,7 +157,7 @@ int main() {
 				printf("곡 이름 : 주문을 외울게\n");
 				gotoxy(10, 10);
 				printf("아티스트 : M2U\n");
-				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
+				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC); // 경로
 				choice = KeyBoradInput();
 				if (choice == 3) {
 					PlaySound(NULL, NULL, 0);
@@ -171,7 +171,7 @@ int main() {
 				system("cls");
 				player();
 				Sleep(100);
-				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.bmp");
+				unsigned char* arr = readBMP("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.bmp"); // 경로
 				x = 0; y = 0;
 				for (i = width * height; i > 0; i--) {
 					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
@@ -189,7 +189,7 @@ int main() {
 				printf("곡 이름 : 무야호 리믹스\n");
 				gotoxy(10, 10);
 				printf("아티스트 : JEFF");
-				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.wav"), NULL, SND_ASYNC);
+				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\muyaho.wav"), NULL, SND_ASYNC); // 경로
 				choice = KeyBoradInput();
 				if (choice == 3) {
 					PlaySound(NULL, NULL, 0);
