@@ -5,6 +5,7 @@
 #include <mmsystem.h>
 #include <conio.h>
 #include <time.h>
+
 int score = 0;
 int combo = 0;
 int count = 0;
@@ -220,9 +221,9 @@ void note4(int sleep) {
 // 주문을 외울게 매핑 // 테스트 값
 void MAP() {
 	gotoxy(45, 15);
-	printf("점수 : %d", score);
+	printf("점수 : ");
 	gotoxy(45, 18);
-	printf("콤보 : %d", score);
+	printf("콤보 : ");
 	note1(100);
 	note3(50);
 	note4(70);
