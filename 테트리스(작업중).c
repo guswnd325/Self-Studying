@@ -8,7 +8,7 @@
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
-	system("mode con cols=50 lines=25 || title 테트리스");
+	system("mode con cols=50 lines=20 || title 테트리스");
 }
 
 /*
@@ -98,11 +98,13 @@ void Interface() {
 	// 점수
 	gotoxy(30,17);
 	printf("점수 :");
-	
-	// 제작자
-	gotoxy(3, 22);
+}
+
+void developer() {
+	gotoxy(28, 18);
 	printf("개발자 : HyeonJoong ");
 }
+
 void deathline() {
 	gotoxy(25, 0);
 	printf("-- OutLine");
@@ -368,6 +370,7 @@ int main(void) {
 	mapload();
 	deathline();
 	Interface();
+	developer();
     while (1) {
         Sleep(100);
     }
