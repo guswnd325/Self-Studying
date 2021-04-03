@@ -6,6 +6,14 @@
 #include <conio.h>
 #include <time.h>
 
+void Init() {
+	CONSOLE_CURSOR_INFO cursorInfo;
+	cursorInfo.bVisible = 0;
+	cursorInfo.dwSize = 1;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+	srand(time(NULL));
+}
+
 int score = 0;
 int combo = 0;
 int count = 0;
@@ -18,7 +26,7 @@ int KeyBoradInput() {
 
 	// key
 	if (keycode == 'p' || keycode == 'P') {
-		return 0; 
+		return 0;
 	}
 	if (keycode == 'c' || keycode == 'C') {
 		return 1;
@@ -125,7 +133,7 @@ int note2(int sleep) {
 		if (loop == 30) {
 			continue;
 		}
-		
+
 		else {
 			note(13, loop + 1);
 			Sleep(sleep);
@@ -177,7 +185,7 @@ void note3(int sleep) {
 			continue;
 		}
 		else {
-			note(23, loop + 1); 
+			note(23, loop + 1);
 			Sleep(sleep);
 			noteB(23, loop + 1);
 		}
@@ -231,7 +239,7 @@ void note4(int sleep) {
 			Sleep(100);
 			noteB(33, loop + 1);
 		}
-	}	
+	}
 	if (loop > 30) {
 		if (_kbhit()) {
 			int a = KeyBoradInput();
@@ -356,7 +364,7 @@ void scoreframe(int score) {
 	printf("점수 : %d", score);
 	gotoxy(45, 17);
 	printf("콤보 : %d", score);
-	
+
 }
 
 // bmp 뿌리기
@@ -397,8 +405,8 @@ void gameframe() {
 	// 오른쪽 , 칸
 	printf("\u2510");
 	for (i = 0; i < 30; i++) {
-			gotoxy(41, i + 1);
-			printf("\u2502");
+		gotoxy(41, i + 1);
+		printf("\u2502");
 	}
 	gotoxy(41, i + 1);
 	printf("\u2524");
@@ -408,8 +416,8 @@ void gameframe() {
 	printf("\u2502");
 	gotoxy(41, i + 3);
 	printf("\u2502");
-	
-	
+
+
 	for (i = 0; i < 30; i++) {
 		gotoxy(31, i + 1);
 		printf("\u2502");
@@ -449,12 +457,12 @@ void gameframe() {
 
 	// 왼쪽 줄
 	for (i = 0; i < 30; i++) {
-			gotoxy(0, i + 1);
-			printf("\u2502");	
+		gotoxy(0, i + 1);
+		printf("\u2502");
 	}
 	gotoxy(0, i + 1);
 	printf("\u251c");
-	
+
 	// 아래
 	for (i = 0; i < 40; i++) {
 		if (i == 10 || i == 20 || i == 30) {
@@ -462,7 +470,7 @@ void gameframe() {
 			printf("\u253c");
 		}
 		else {
-		gotoxy(i, 42);
+			gotoxy(i, 42);
 			printf("\u2500");
 		}
 	}
@@ -480,7 +488,7 @@ void gameframe() {
 			printf("\u2534");
 		}
 		else {
-			gotoxy(i+1, 42);
+			gotoxy(i + 1, 42);
 			printf("\u2500");
 		}
 	}
@@ -500,7 +508,7 @@ void menudraw() {
 	printf("게임 시작 = P\n");
 	gotoxy(23, 15);
 	printf("종료 = E\n");
-	
+
 }
 
 // 창 크기
@@ -524,6 +532,7 @@ void title() {
 
 // 메인
 int main(void) {
+	Init();
 	int combo = 0;
 	FILE* fp;
 	FILE* fps;
