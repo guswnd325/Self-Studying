@@ -91,8 +91,21 @@ void note1(int sleep) {
 				combo += 1;
 				printf("콤보 : %d", combo);
 			}
+			else {
+				score += 0;
+				combo = 0;
+				gotoxy(45, 18);
+				printf("          ");
+				gotoxy(45, 18);
+				printf("콤보 : 0");
+				count += 1;
+				gotoxy(45, 21);
+				printf("틀린 횟수 : %d", count);
+			}
 		}
 		else {
+			gotoxy(45, 18);
+			printf("          ");
 			score += 0;
 			combo = 0;
 			gotoxy(45, 18);
@@ -130,8 +143,21 @@ int note2(int sleep) {
 				combo += 1;
 				printf("콤보 : %d", combo);
 			}
+			else {
+				score += 0;
+				combo = 0;
+				gotoxy(45, 18);
+				printf("          ");
+				gotoxy(45, 18);
+				printf("콤보 : 0");
+				count += 1;
+				gotoxy(45, 21);
+				printf("틀린 횟수 : %d", count);
+			}
 		}
 		else {
+			gotoxy(45, 18);
+			printf("          ");
 			score += 0;
 			combo = 0;
 			gotoxy(45, 18);
@@ -167,8 +193,21 @@ void note3(int sleep) {
 				combo += 1;
 				printf("콤보 : %d", combo);
 			}
+			else {
+				score += 0;
+				combo = 0;
+				gotoxy(45, 18);
+				printf("          ");
+				gotoxy(45, 18);
+				printf("콤보 : 0");
+				count += 1;
+				gotoxy(45, 21);
+				printf("틀린 횟수 : %d", count);
+			}
 		}
 		else {
+			gotoxy(45, 18);
+			printf("          ");
 			score += 0;
 			combo = 0;
 			gotoxy(45, 18);
@@ -204,8 +243,21 @@ void note4(int sleep) {
 				gotoxy(45, 18);
 				printf("콤보 : %d", combo);
 			}
+			else {
+				score += 0;
+				combo = 0;
+				gotoxy(45, 18);
+				printf("          ");
+				gotoxy(45, 18);
+				printf("콤보 : 0");
+				count += 1;
+				gotoxy(45, 21);
+				printf("틀린 횟수 : %d", count);
+			}
 		}
 		else {
+			gotoxy(45, 18);
+			printf("          ");
 			score += 0;
 			combo = 0;
 			gotoxy(45, 18);
@@ -226,15 +278,15 @@ void MAP() {
 	printf("콤보 : ");
 	note1(100);
 	note3(50);
-	note4(70);
-	note1(50);
-	note4(70);
-	note3(50);
-	note2(50);
-	note4(70);
+	note4(40);
+	note1(30);
+	note4(40);
+	note3(30);
+	note2(40);
+	note4(50);
 	note1(60);
-	note1(80);
-	note4(70);
+	note1(70);
+	note4(60);
 	note2(50);
 	note1(50);
 	note1(50);
@@ -253,11 +305,11 @@ void MAP() {
 	note4(70);
 	note1(60);
 	note2(50);
-	note1(80);
-	note4(70);
+	note1(50);
+	note4(60);
 	note3(50);
 	note2(50);
-	note1(90);
+	note1(60);
 	note3(50);
 	note1(50);
 	note2(50);
@@ -447,9 +499,8 @@ void menudraw() {
 	gotoxy(22, 14);
 	printf("게임 시작 = P\n");
 	gotoxy(23, 15);
-	printf("조작법 = C\n");
-	gotoxy(24, 16);
 	printf("종료 = E\n");
+	
 }
 
 // 창 크기
