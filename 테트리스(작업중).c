@@ -27,8 +27,8 @@ int KeyBoreadInput() {
 	}
 }
 
-// 블럭 이동
-void BlockMove() {
+// 블럭 이벤트
+void BlockEvent() {
 	int b = KeyBoreadInput();
 	if (_kbhit()) {
 		if (b == RIGHT) {
