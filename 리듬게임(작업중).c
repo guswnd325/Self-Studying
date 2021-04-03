@@ -93,9 +93,11 @@ void note1(int sleep) {
 		}
 		else {
 			score += 0;
-			combo += 0;
+			combo = 0;
+			gotoxy(45, 18);
+			printf("콤보 : %d", combo);
 			count += 1;
-			gotoxy(45, 20);
+			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
 	}
@@ -130,9 +132,11 @@ int note2(int sleep) {
 		}
 		else {
 			score += 0;
-			combo += 0;
+			combo = 0;
+			gotoxy(45, 18);
+			printf("콤보 : %d", combo);
 			count += 1;
-			gotoxy(45, 20);
+			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
 	}
@@ -165,9 +169,11 @@ void note3(int sleep) {
 		}
 		else {
 			score += 0;
-			combo += 0;
+			combo = 0;
+			gotoxy(45, 18);
+			printf("콤보 : %d", combo);
 			count += 1;
-			gotoxy(45, 20);
+			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
 	}
@@ -193,16 +199,18 @@ void note4(int sleep) {
 				score += scoreR;
 				gotoxy(45, 15);
 				printf("점수 : %d", score);
-				gotoxy(45, 18);
 				combo += 1;
+				gotoxy(45, 18);
 				printf("콤보 : %d", combo);
 			}
 		}
 		else {
 			score += 0;
-			combo += 0;
+			combo = 0;
+			gotoxy(45, 18);
+			printf("콤보 : %d", combo);
 			count += 1;
-			gotoxy(missX,missY);
+			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
 	}
@@ -463,7 +471,6 @@ int main(void) {
 	title();
 	menudraw();
 	int c;
-	
 	int music;
 	int choice;
 	int key = 0;
