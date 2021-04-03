@@ -236,10 +236,18 @@ void MAP() {
 	note1(80);
 	note4(70);
 	note2(50);
-	note1(90);
-	note1(100);
+	note1(50);
+	note1(50);
 	note1(50);
 	note3(50);
+	note4(30);
+	note3(30);
+	note2(30);
+	note1(50);
+	note3(60);
+	note1(50);
+	note2(50);
+	note4(70);
 	note2(50);
 	note1(50);
 	note4(70);
@@ -251,7 +259,7 @@ void MAP() {
 	note2(50);
 	note1(90);
 	note3(50);
-	note1(100);
+	note1(50);
 	note2(50);
 	note4(70);
 }
