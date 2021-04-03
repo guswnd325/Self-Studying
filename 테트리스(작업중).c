@@ -5,6 +5,47 @@
 #include <conio.h>
 #include <MMsystem.h>
 #include <stdbool.h>
+#define LEFT 75
+#define RIGHT 77
+#define UP 72
+#define DOWN 80
+
+// 키입력 받기
+int KeyBoreadInput() {
+	int a = _getch();
+	if (a == LEFT) {
+		return LEFT;
+	}
+	if (a == RIGHT) {
+		return RIGHT;
+	}
+	if (a == UP) {
+		return UP;
+	}
+	if (a == DOWN) {
+		return DOWN;
+	}
+}
+
+// 블럭 이동
+void BlockMove() {
+	int b = KeyBoreadInput();
+	if (_kbhit()) {
+		if (b == RIGHT) {
+
+		}
+		if (b == LEFT) {
+
+		}
+		if (b == DOWN) {
+
+		}
+		if (b == UP) {
+
+		}
+	}
+}
+
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
@@ -96,13 +137,13 @@ void Interface() {
 	printf("↓ : 블럭 놓기");
 
 	// 점수
-	gotoxy(30,17);
-	printf("점수 :");
+	gotoxy(30,15);
+	printf("점수  :");
 }
 
 void developer() {
-	gotoxy(28, 18);
-	printf("개발자 : HyeonJoong ");
+	gotoxy(28, 17);
+	printf(" 개발자 : HyeonJoong ");
 }
 
 void deathline() {
