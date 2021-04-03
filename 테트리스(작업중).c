@@ -10,6 +10,13 @@ void gamesize() {
 	system("mode con cols=50 lines=25 || title 테트리스");
 }
 
+/*void lineclear() {
+	if () {
+
+	}
+}
+*/
+
 // 커서 이동
 void gotoxy(int x, int y)
 {
@@ -81,33 +88,30 @@ void Interface() {
 	// 제작자
 	gotoxy(3, 22);
 	printf("개발자 : HyeonJoong ");
-
-	// 데드 라인
-	
 }
-void outline() {
-	gotoxy(25, 3);
+void deathline() {
+	gotoxy(25, 0);
 	printf("-- OutLine");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("                ");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("-- OutLine");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("               ");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("-- OutLine");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("               ");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("-- OutLine");
 	Sleep(500);
-	gotoxy(25, 3);
+	gotoxy(25, 0);
 	printf("               ");
 
 }
@@ -348,7 +352,7 @@ int main(void) {
 	BGM();
 	gamesize();
 	mapload();
-	outline();
+	deathline();
 	Interface();
     while (1) {
         Sleep(100);
