@@ -1,8 +1,41 @@
+// 
 #define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <mmsystem.h>
+
+int KeyBoradInput() {
+	int keycode;
+	keycode = getch();
+	// a
+	if (keycode == 'p' || keycode == 'P') {
+		return 0;
+	}
+	if (keycode == 'c' || keycode == 'C') {
+		return 1;
+	}
+	if (keycode == 'e' || keycode == 'E') {
+		return 2;
+	}
+	if (keycode == 'r' || keycode == 'R') {
+		return 3;
+	}
+
+	// 노트 조작키
+	if (keycode == 'd' || keycode == 'D') {
+		return 4;
+	}
+	if (keycode == 'f' || keycode == 'F') {
+		return 5;
+	}
+	if (keycode == 'g' || keycode == 'G') {
+		return 6;
+	}
+	if (keycode == 'k' || keycode == 'K') {
+		return 7;
+	}
+}
 
 void gotoxy(int x, int y)
 {
@@ -12,15 +45,161 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
-void Score(int score) {
-		gotoxy(45, 15);
-		printf("스코어 : %d", score);
+// 노트
+void note(int x, int y) {
+
+	gotoxy(x, y);
+	printf("\u25A0\u25A0\u25A0\u25A0");
+
 }
 
-void Combo(int combo) {
+// 노트 사라짐
+void noteB(int x, int y) {
+	gotoxy(x, y);
+	printf("        ");
+}
+
+// 첫번쨰 줄 노트
+void note1(int gametime) {
+	int loop;
+	for (loop = 0; loop < 33; loop++) {
+		if (loop == 30) {
+			continue;
+		}
+		
+		else {
+			note(2, loop + 1);
+			Sleep(100);
+			noteB(2, loop + 1);
+		}
+	}
+
+	int score = 0;
+	while (gametime != 1) {
+		gotoxy(45, 15);
+		printf("스코어 : %d", score);
+		int ki = KeyBoradInput();
+		if (ki == 4 && loop > 30) {
+			score += 2131;  // 테스트용 값 
+		}
+	}
+
+	// Combo (멀티 스레드)
+	int combo = 0;
+
 	gotoxy(45, 17);
 	printf(" 콤보  : %d", combo);
+	int ki = KeyBoradInput();
+	if (ki == 4 && loop > 30) {
+		combo += 1;  // 테스트용 값 
+	}
 }
+
+void note2(int gametime) {
+	int loop;
+	for (loop = 0; loop < 33; loop++) {
+		if (loop == 30) {
+			continue;
+		}
+		
+		else {
+			note(13, loop + 1);
+			Sleep(100);
+			noteB(13, loop + 1);
+		}
+	}
+	int score = 0;
+	while (gametime != 1) {
+		gotoxy(45, 15);
+		printf("스코어 : %d", score);
+		int ki = KeyBoradInput();
+		if (ki == 5 && loop > 30) {
+			score += 2131;  // 테스트용 값 
+		}
+	}
+
+	// Combo (멀티 스레드)
+	int combo = 0;
+
+	gotoxy(45, 17);
+	printf(" 콤보  : %d", combo);
+	int ki = KeyBoradInput();
+	if (ki == 5 && loop > 30) {
+		combo += 1;  // 테스트용 값 
+	}
+}
+
+void note3(int gametime) {
+	int loop;
+	for (loop = 0; loop < 33; loop++) {
+		if (loop == 30) {
+			continue;
+		}
+		
+		else {
+			note(23, loop + 1); 
+			Sleep(100);
+			noteB(23, loop + 1);
+		}
+	}
+	int score = 0;
+	while (gametime != 1) {
+		gotoxy(45, 15);
+		printf("스코어 : %d", score);
+		int ki = KeyBoradInput();
+		if (ki == 6 && loop > 30) {
+			score += 2131;  // 테스트용 값 
+		}
+	}
+
+	// Combo (멀티 스레드)
+	int combo = 0;
+
+	gotoxy(45, 17);
+	printf(" 콤보  : %d", combo);
+	int ki = KeyBoradInput();
+	if (ki == 6 && loop > 30) {
+		combo += 1;  // 테스트용 값 
+	}
+}
+
+void note4(int gametime) {
+	int loop;
+	for (loop = 0; loop < 33; loop++) {
+		if (loop == 30) {
+			continue;
+		}
+		else {
+			note(33, loop + 1);
+			Sleep(100);
+			noteB(33, loop + 1);
+		}
+	}
+
+	// score (멀티 스레드)
+	int score = 0;
+	while (gametime != 1) {
+		gotoxy(45, 15);
+		printf("스코어 : %d", score);
+		int ki = KeyBoradInput();
+		if (ki == 7 && loop > 30) {
+			score += 2131;  // 테스트용 값 
+		}
+	}
+
+	// Combo (멀티 스레드)
+	int combo = 0;
+
+	gotoxy(45, 17);
+	printf(" 콤보  : %d", combo);
+	int ki = KeyBoradInput();
+	if (ki == 7 && loop > 30) {
+		combo += 1;  // 테스트용 값 
+	}
+
+}
+
+
 
 int width, height;
 
@@ -164,7 +343,7 @@ void gameframe() {
 	printf("    ");
 	system("pause");
 	printf("\n\n");
-	printf("  (종료 : E) (돌아가기 : R) (노트 : DFHJ) (개발자 : HyeonJoong)");
+	printf("  (종료 : E) (돌아가기 : R) (노트 : DFJK) (개발자 : HyeonJoong)");
 }
 
 void menudraw() {
@@ -184,23 +363,6 @@ void game() {
 	system("mode con cols=65 lines=41 | title 리듬게임 by HyeonJoong");
 }
 
-int KeyBoradInput() {
-	int keycode;
-	keycode = getch();
-	if (keycode == 'p' || keycode == 'P') {
-		return 0;
-	}
-	if (keycode == 'c'|| keycode == 'C') {
-		return 1;
-	}
-	if (keycode == 'e' || keycode == 'E') {
-		return 2;
-	}
-	if (keycode == 'r' || keycode == 'R') {
-		return 3;
-	}
-}
-
 
 void title() {
 	printf("\n\n\n");
@@ -218,6 +380,7 @@ int main(void) {
 	HWND myconsole = GetConsoleWindow();
 	HDC dc = GetDC(myconsole);
 	int i;
+	int gametime = 0;
 	COLORREF color = RGB(0, 255, 0);
 	int x = 0;
 	int y = 0;
@@ -269,7 +432,7 @@ int main(void) {
 				x = 0; y = 0;
 				for (i = width * height; i > 0; i--) {
 					color = RGB(arr[3 * i], arr[3 * i + 1], arr[3 * i + 2]);
-					SetPixel(dc, (x + 380), (y + 30), color);
+					SetPixel(dc, (x + 380), (y + 300), color);
 					x++;
 					if (x % width == 0) {
 						x = 0;
@@ -278,19 +441,22 @@ int main(void) {
 						y++;
 					}
 				}
-				Score(score);
-				Combo(combo);
 				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
+				note1(gametime);
+				note2(gametime);
+				note3(gametime);
+				note4(gametime);
 				choice = KeyBoradInput();
 				if (choice == 3) {
 					PlaySound(NULL, NULL, 0);
 					continue;
 				}
 				if (choice == 2) {
+					gametime = 1;
 					return 0;
 				}
+				
 			}
-			/*
 			if (music == 2) { // 2번쨰 노래
 				game();
 				system("cls");
@@ -308,8 +474,6 @@ int main(void) {
 						y++;
 					}
 				}
-				Score(score);
-				Combo(combo);
 				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\두번쨰노래.wav"), NULL, SND_ASYNC);
 				choice = KeyBoradInput();
 				if (choice == 3) {
@@ -320,10 +484,8 @@ int main(void) {
 					return 0;
 				}
 			}
-			*/
 			break;
 		}
-		
 		case 1: { // 조작법
 			system("cls");
 			break;
