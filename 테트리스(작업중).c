@@ -4,18 +4,32 @@
 #include <time.h>
 #include <conio.h>
 #include <MMsystem.h>
+#include <stdbool.h>
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
 	system("mode con cols=50 lines=25 || title 테트리스");
 }
 
-/*void lineclear() {
-	if () {
+/*
+// 블럭이 한줄을 다 채웠나?
+
+bool fullline() {
+if () {
+return true;
+}
+else {
+return false;
+}
+
+// fullline이 true 값일때 라인을 지워주는 함수
+void lineclear() {
+	if (fullline == 1) {
 
 	}
 }
 */
+
 
 // 커서 이동
 void gotoxy(int x, int y)
