@@ -4,15 +4,20 @@
 #include <stdlib.h>
 #include <mmsystem.h>
 #include <conio.h>
+#include <time.h>
 int score = 0;
-
+int combo = 0;
+int count = 0;
+int scoreR = 459;
+int missX = 45;
+int missY = 21;
 int KeyBoradInput() {
 	int keycode;
 	keycode = _getch();
 
 	// key
 	if (keycode == 'p' || keycode == 'P') {
-		return 0;
+		return 0; 
 	}
 	if (keycode == 'c' || keycode == 'C') {
 		return 1;
@@ -62,7 +67,7 @@ void noteB(int x, int y) {
 }
 
 // 첫번쨰 줄 노트
-int note1(int sleep, int score) {
+void note1(int sleep) {
 	int loop = 0;
 	for (loop = 0; loop < 33; loop++) {
 		if (loop == 30) {
@@ -78,22 +83,28 @@ int note1(int sleep, int score) {
 		if (_kbhit()) {
 			int a = KeyBoradInput();
 			if (a == 4) {
-				score += 1000;
+				score += scoreR;
 				gotoxy(45, 15);
 				printf("점수 : %d", score);
-			}
-			else {
-				score += 0;
+				gotoxy(45, 18);
+				combo += 1;
+				printf("콤보 : %d", combo);
 			}
 		}
+		else {
+			score += 0;
+			combo += 0;
+			count += 1;
+			gotoxy(45, 20);
+			printf("틀린 횟수 : %d", count);
+		}
 	}
-	return score;
 }
 
-/*
+
 // 두번쨰 줄 노트
 int note2(int sleep) {
-	int loop;
+	int loop = 0;
 	for (loop = 0; loop < 33; loop++) {
 		if (loop == 30) {
 			continue;
@@ -105,11 +116,31 @@ int note2(int sleep) {
 			noteB(13, loop + 1);
 		}
 	}
+	if (loop > 30) {
+		if (_kbhit()) {
+			int a = KeyBoradInput();
+			if (a == 5) {
+				score += scoreR;
+				gotoxy(45, 15);
+				printf("점수 : %d", score);
+				gotoxy(45, 18);
+				combo += 1;
+				printf("콤보 : %d", combo);
+			}
+		}
+		else {
+			score += 0;
+			combo += 0;
+			count += 1;
+			gotoxy(45, 20);
+			printf("틀린 횟수 : %d", count);
+		}
+	}
 }
 
 // 세번째 줄 노트
 void note3(int sleep) {
-	int loop;
+	int loop = 0;
 	for (loop = 0; loop < 33; loop++) {
 		if (loop == 30) {
 			continue;
@@ -120,11 +151,31 @@ void note3(int sleep) {
 			noteB(23, loop + 1);
 		}
 	}
+	if (loop > 30) {
+		if (_kbhit()) {
+			int a = KeyBoradInput();
+			if (a == 6) {
+				score += scoreR;
+				gotoxy(45, 15);
+				printf("점수 : %d", score);
+				gotoxy(45, 18);
+				combo += 1;
+				printf("콤보 : %d", combo);
+			}
+		}
+		else {
+			score += 0;
+			combo += 0;
+			count += 1;
+			gotoxy(45, 20);
+			printf("틀린 횟수 : %d", count);
+		}
+	}
 }
 
 // 4번째 줄 노트
 void note4(int sleep) {
-	int loop;
+	int loop = 0;
 	for (loop = 0; loop < 33; loop++) {
 		if (loop == 30) {
 			continue;
@@ -135,25 +186,65 @@ void note4(int sleep) {
 			noteB(33, loop + 1);
 		}
 	}	
+	if (loop > 30) {
+		if (_kbhit()) {
+			int a = KeyBoradInput();
+			if (a == 7) {
+				score += scoreR;
+				gotoxy(45, 15);
+				printf("점수 : %d", score);
+				gotoxy(45, 18);
+				combo += 1;
+				printf("콤보 : %d", combo);
+			}
+		}
+		else {
+			score += 0;
+			combo += 0;
+			count += 1;
+			gotoxy(missX,missY);
+			printf("틀린 횟수 : %d", count);
+		}
+	}
 }
-*/
+
 
 // 주문을 외울게 매핑 // 테스트 값
-void MAP(int score) {
-	note1(100, score);
-	note1(50, score);
-	note1(60, score);
-	note1(80, score);
-	note1(90, score);
-	note1(100, score);
-	note1(50, score);
-	note1(50, score);
-	note1(60, score);
-	note1(80, score);
-	note1(90, score);
-	note1(100, score);
-
-	
+void MAP() {
+	gotoxy(45, 15);
+	printf("점수 : %d", score);
+	gotoxy(45, 18);
+	printf("콤보 : %d", score);
+	note1(100);
+	note3(50);
+	note4(70);
+	note1(50);
+	note4(70);
+	note3(50);
+	note2(50);
+	note4(70);
+	note1(60);
+	note1(80);
+	note4(70);
+	note2(50);
+	note1(90);
+	note1(100);
+	note1(50);
+	note3(50);
+	note2(50);
+	note1(50);
+	note4(70);
+	note1(60);
+	note2(50);
+	note1(80);
+	note4(70);
+	note3(50);
+	note2(50);
+	note1(90);
+	note3(50);
+	note1(100);
+	note2(50);
+	note4(70);
 }
 
 // BMP
@@ -409,9 +500,10 @@ int main(void) {
 				game();
 				system("cls");
 				gameframe();
-				scoreframe(score);
 				PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
-				MAP(score);
+				MAP();
+				system("cls");
+				printf("점수 : %d", score);
 				choice = KeyBoradInput();
 				if (choice == 3) {
 					PlaySound(NULL, NULL, 0);
