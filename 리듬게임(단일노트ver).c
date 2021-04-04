@@ -108,6 +108,8 @@ void note1(int sleep) {
 				printf("콤보 : 0");
 				count += 1;
 				gotoxy(45, 21);
+				printf("          ");
+				gotoxy(45, 21);
 				printf("틀린 횟수 : %d", count);
 			}
 		}
@@ -119,6 +121,8 @@ void note1(int sleep) {
 			gotoxy(45, 18);
 			printf("콤보 : %d", combo);
 			count += 1;
+			gotoxy(45, 21);
+			printf("          ");
 			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
@@ -160,6 +164,8 @@ int note2(int sleep) {
 				printf("콤보 : 0");
 				count += 1;
 				gotoxy(45, 21);
+				printf("          ");
+				gotoxy(45, 21);
 				printf("틀린 횟수 : %d", count);
 			}
 		}
@@ -171,6 +177,8 @@ int note2(int sleep) {
 			gotoxy(45, 18);
 			printf("콤보 : %d", combo);
 			count += 1;
+			gotoxy(45, 21);
+			printf("          ");
 			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
@@ -210,6 +218,8 @@ void note3(int sleep) {
 				printf("콤보 : 0");
 				count += 1;
 				gotoxy(45, 21);
+				printf("          ");
+				gotoxy(45, 21);
 				printf("틀린 횟수 : %d", count);
 			}
 		}
@@ -221,6 +231,8 @@ void note3(int sleep) {
 			gotoxy(45, 18);
 			printf("콤보 : %d", combo);
 			count += 1;
+			gotoxy(45, 21);
+			printf("          ");
 			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
@@ -260,6 +272,8 @@ void note4(int sleep) {
 				printf("콤보 : 0");
 				count += 1;
 				gotoxy(45, 21);
+				printf("          ");
+				gotoxy(45, 21);
 				printf("틀린 횟수 : %d", count);
 			}
 		}
@@ -271,6 +285,8 @@ void note4(int sleep) {
 			gotoxy(45, 18);
 			printf("콤보 : %d", combo);
 			count += 1;
+			gotoxy(45, 21);
+			printf("          ");
 			gotoxy(45, 21);
 			printf("틀린 횟수 : %d", count);
 		}
