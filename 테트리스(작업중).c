@@ -203,7 +203,7 @@ int block[7][4][4][4] = {
 	}
 };
 
-int BlockRot = 0; 
+int BlockRot = 0;
 
 #define LEFT 75
 #define RIGHT 77
@@ -218,7 +218,7 @@ int BlockForm() {
 int BlockFormV = 0;
 
 void BlockEvent() {
-	
+
 	if (_kbhit()) {
 		int a = _getch();
 		// 블럭 회전
@@ -246,23 +246,23 @@ void BlockEvent() {
 }
 
 void BlankBlock() {
-	
+
 }
 
-void DrawBlock(int x, int y) { 
-	
+void DrawBlock(int x, int y) {
+
 }
 
-		// 블럭이 천천히 떨어지는 원리 
-	
+// 블럭이 천천히 떨어지는 원리 
 
-		// 빈 블럭
-		// 블럭그리기
-		// 쉬기
-		// 블럭그린곳 공백처리
-		// 바로 다음좌표 y+1에 그리기
-		
-	
+
+// 빈 블럭
+// 블럭그리기
+// 쉬기
+// 블럭그린곳 공백처리
+// 바로 다음좌표 y+1에 그리기
+
+
 
 
 // 콘솔 창 크기 및 타이틀
@@ -406,7 +406,6 @@ void mapload() {
 	}
 }
 
-
 int main(void) {
 	//
 	init();
@@ -417,9 +416,9 @@ int main(void) {
 	Interface();
 	developer();
 	//
-	while (true) {
-		// mapload(); // 맵갱신
-		Sleep(100);
+	while (1) {
+		
+		
 	}
 }
 
