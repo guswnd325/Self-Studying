@@ -204,6 +204,7 @@ int block[7][4][4][4] = {
 };
 
 int BlockRot = 0; 
+
 #define LEFT 75
 #define RIGHT 77
 #define UP 72
@@ -211,7 +212,7 @@ int BlockRot = 0;
 
 int BlockForm() {
 	srand(time(NULL));
-	int BlockForm = rand() % 6 + 0;
+	int BlockForm = rand() % 6;
 	return BlockForm;
 }
 
@@ -243,6 +244,23 @@ void BlockEvent() {
 	}
 }
 
+void DrawBlock() {
+	int i, j, k;
+	k = 0;
+	gotoxy(9, 0);
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
+			if (block[BlockForm()][BlockRot][i][j] == 1) {
+				printf("\u25A0");
+			}
+			else {
+				printf("  ");
+			}
+		}
+		k++;
+		gotoxy(9, k);
+	}
+}
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
@@ -385,15 +403,20 @@ void mapload() {
 	}
 }
 
+
 int main(void) {
+	//
 	init();
-	BGM();
+	// BGM();
 	gamesize();
 	mapload();
-	deathline();
+	// deathline();
 	Interface();
+	DrawBlock();
+	//
+	//
 	while (1) {
-		BlockEvent();
+		Sleep(100);
 	}
 }
 
