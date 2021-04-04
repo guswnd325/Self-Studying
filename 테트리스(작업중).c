@@ -5,74 +5,7 @@
 #include <conio.h>
 #include <MMsystem.h>
 #include <stdbool.h>
-#define LEFT 75
-#define RIGHT 77
-#define UP 72
-#define DOWN 80
 
-// 키입력 받기
-int KeyBoreadInput() {
-	int a = _getch();
-	if (a == LEFT) {
-		return LEFT;
-	}
-	if (a == RIGHT) {
-		return RIGHT;
-	}
-	if (a == UP) {
-		return UP;
-	}
-	if (a == DOWN) {
-		return DOWN;
-	}
-}
-
-// 블럭 이벤트
-void BlockEvent() {
-	int b = KeyBoreadInput();
-	if (_kbhit()) {
-		if (b == RIGHT) {
-
-		}
-		if (b == LEFT) {
-
-		}
-		if (b == DOWN) {
-
-		}
-		if (b == UP) {
-
-		}
-	}
-}
-
-
-// 콘솔 창 크기 및 타이틀
-void gamesize() {
-	system("mode con cols=50 lines=20 || title 테트리스");
-}
-
-/*
-// 블럭이 한줄을 다 채웠나?
-
-bool fullline() {
-if () {
-return true;
-}
-else {
-return false;
-}
-
-// fullline이 true 값일때 라인을 지워주는 함수
-void lineclear() {
-	if (fullline == 1) {
-
-	}
-}
-*/
-
-
-// 커서 이동
 void gotoxy(int x, int y)
 {
 	COORD Cur;
@@ -81,99 +14,6 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
 }
 
-// 커서 이동 안보이게
-void init() {
-	CONSOLE_CURSOR_INFO cursorinfo;
-	cursorinfo.bVisible = 0;
-	cursorinfo.dwSize = 1;
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorinfo);
-}
-
-// 배경음악
-void BGM() {
-	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\fuwafuwa.wav"), NULL, SND_ASYNC);
-}
-
-// 인터페이스
-void Interface() {
-
-	// 네모 박스
-	gotoxy(27, 6);
-	printf("\u250c");
-	int i;
-	for (i = 0; i < 20; i++) {
-		gotoxy(i + 27, 6);
-		printf("\u2500");
-	}
-	gotoxy(i + 27, 6);
-	printf("\u2510");
-	for (i = 0; i < 6; i++) {
-		gotoxy(47, i + 7);
-		printf("\u2502");
-	}
-	gotoxy(47, i + 7);
-	printf("\u2518");
-	for (i = 0; i < 20; i++) {
-		gotoxy(27+i, 13);
-		printf("\u2500");
-	}
-	gotoxy(26, 13);
-	printf("\u2514");
-	for (i = 0; i < 6; i++) {
-		gotoxy(26, i + 7);
-		printf("\u2502");
-	}
-	gotoxy(26, 6);
-	printf("\u250C");
-	
-	// 설명
-	gotoxy(34,3);
-	printf("조작법");
-	gotoxy(28, 7);
-	printf("← , → : 블럭 이동");
-	gotoxy(30, 9);
-	printf("↑ : 블럭 회전");
-	gotoxy(30, 11);
-	printf("↓ : 블럭 놓기");
-
-	// 점수
-	gotoxy(30,15);
-	printf("점수  :");
-}
-
-void developer() {
-	gotoxy(28, 17);
-	printf(" 개발자 : HyeonJoong ");
-}
-
-void deathline() {
-	gotoxy(25, 0);
-	printf("-- OutLine");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("                ");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("-- OutLine");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("               ");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("-- OutLine");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("               ");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("-- OutLine");
-	Sleep(500);
-	gotoxy(25, 0);
-	printf("               ");
-
-}
-
-// 블럭
 int block[7][4][4][4] = {
 
 	{ // ㅗ모양 블럭
@@ -363,6 +203,147 @@ int block[7][4][4][4] = {
 	}
 };
 
+int BlockRot = 0; 
+#define LEFT 75
+#define RIGHT 77
+#define UP 72
+#define DOWN 80
+
+int BlockForm() {
+	srand(time(NULL));
+	int BlockForm = rand() % 6 + 0;
+	return BlockForm;
+}
+
+void BlockEvent() {
+	
+	if (_kbhit()) {
+		int a = _getch();
+		// 블럭 회전
+		if (a == UP) {
+			if (BlockRot > 3) {
+				BlockRot = 0;
+			}
+			else {
+				BlockRot++;
+			}
+		}
+
+		// 블럭이동
+		if (a == LEFT) {
+		}
+
+		// 블럭이동
+		if (a == RIGHT) {
+		}
+
+		// 블럭 내림(드랍)
+		if (a == DOWN) {
+		}
+	}
+}
+
+
+// 콘솔 창 크기 및 타이틀
+void gamesize() {
+	system("mode con cols=50 lines=20 || title 테트리스");
+}
+
+// 커서 이동 안보이게
+void init() {
+	CONSOLE_CURSOR_INFO cursorinfo;
+	cursorinfo.bVisible = 0;
+	cursorinfo.dwSize = 1;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorinfo);
+}
+
+// 배경음악
+void BGM() {
+	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\fuwafuwa.wav"), NULL, SND_ASYNC);
+}
+
+// 인터페이스
+void Interface() {
+
+	// 네모 박스
+	gotoxy(27, 6);
+	printf("\u250c");
+	int i;
+	for (i = 0; i < 20; i++) {
+		gotoxy(i + 27, 6);
+		printf("\u2500");
+	}
+	gotoxy(i + 27, 6);
+	printf("\u2510");
+	for (i = 0; i < 6; i++) {
+		gotoxy(47, i + 7);
+		printf("\u2502");
+	}
+	gotoxy(47, i + 7);
+	printf("\u2518");
+	for (i = 0; i < 20; i++) {
+		gotoxy(27 + i, 13);
+		printf("\u2500");
+	}
+	gotoxy(26, 13);
+	printf("\u2514");
+	for (i = 0; i < 6; i++) {
+		gotoxy(26, i + 7);
+		printf("\u2502");
+	}
+	gotoxy(26, 6);
+	printf("\u250C");
+
+	// 설명
+	gotoxy(34, 3);
+	printf("조작법");
+	gotoxy(28, 7);
+	printf("← , → : 블럭 이동");
+	gotoxy(30, 9);
+	printf("↑ : 블럭 회전");
+	gotoxy(30, 11);
+	printf("↓ : 블럭 놓기");
+
+	// 점수
+	gotoxy(30, 15);
+	printf("점수  :");
+}
+
+void developer() {
+	gotoxy(28, 17);
+	printf(" 개발자 : HyeonJoong ");
+}
+
+void deathline() {
+	gotoxy(25, 0);
+	printf("-- OutLine");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("                ");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("-- OutLine");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("               ");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("-- OutLine");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("               ");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("-- OutLine");
+	Sleep(500);
+	gotoxy(25, 0);
+	printf("               ");
+
+}
+
+// 블럭
+
+
 int map[21][12] = {
 {1,0,0,0,0,0,0,0,0,0,0,1},
 {1,0,0,0,0,0,0,0,0,0,0,1},
@@ -387,21 +368,21 @@ int map[21][12] = {
 {1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
- 
+
 void mapload() {
 	gotoxy(0, 0);
-    int i, j;
-    for (i = 0; i < 21; i++) {
-        for (j = 0; j < 12; j++) {
-            if (map[i][j] == 1) {
-                printf("\u25A0");
-            }
-            else {
-                printf("  ");
-            }
-        }
-        printf("\n");
-    }
+	int i, j;
+	for (i = 0; i < 21; i++) {
+		for (j = 0; j < 12; j++) {
+			if (map[i][j] == 1) {
+				printf("\u25A0");
+			}
+			else {
+				printf("  ");
+			}
+		}
+		printf("\n");
+	}
 }
 
 int main(void) {
@@ -411,13 +392,12 @@ int main(void) {
 	mapload();
 	deathline();
 	Interface();
-	developer();
-    while (1) {
-        Sleep(100);
-    }
+	while (1) {
+		BlockEvent();
+	}
 }
 
-    
+
 
 
 
