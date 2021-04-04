@@ -417,8 +417,8 @@ int main(void) {
 	Interface();
 	developer();
 	//
-	//
-	while (1) {
+	while (true) {
+		// mapload(); // 맵갱신
 		Sleep(100);
 	}
 }
