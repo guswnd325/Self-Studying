@@ -215,6 +215,7 @@ int BlockForm() {
 	int BlockForm = rand() % 6;
 	return BlockForm;
 }
+int BlockFormV = 0;
 
 void BlockEvent() {
 	
@@ -244,23 +245,25 @@ void BlockEvent() {
 	}
 }
 
-void DrawBlock() {
-	int i, j, k;
-	k = 0;
-	gotoxy(9, 0);
-	for (i = 0; i < 4; i++) {
-		for (j = 0; j < 4; j++) {
-			if (block[BlockForm()][BlockRot][i][j] == 1) {
-				printf("\u25A0");
-			}
-			else {
-				printf("  ");
-			}
-		}
-		k++;
-		gotoxy(9, k);
-	}
+void BlankBlock() {
+	
 }
+
+void DrawBlock(int x, int y) { 
+	
+}
+
+		// 블럭이 천천히 떨어지는 원리 
+	
+
+		// 빈 블럭
+		// 블럭그리기
+		// 쉬기
+		// 블럭그린곳 공백처리
+		// 바로 다음좌표 y+1에 그리기
+		
+	
+
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
@@ -410,9 +413,9 @@ int main(void) {
 	// BGM();
 	gamesize();
 	mapload();
-	// deathline();
+	deathline();
 	Interface();
-	DrawBlock();
+	developer();
 	//
 	//
 	while (1) {
