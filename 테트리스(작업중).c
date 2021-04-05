@@ -6,6 +6,38 @@
 #include <MMsystem.h>
 #include <stdbool.h>
 
+#define EMPTY 0
+#define BLOCK 1
+
+#define UP 72
+#define LEFT 75
+#define RIGHT 77
+#define SPACE 32
+#define ESC 27
+#define DOWN 80
+
+void KeyBoreadInput() {
+	int key;
+	key = _getch();
+	while (_kbhit()) {
+		switch (key) {
+		case UP: {
+			break;
+		}
+		case DOWN: {
+			break;
+		}
+		case LEFT: {
+			break;
+		}
+		case RIGHT: {
+			break;
+		}
+		}
+	}
+}
+	
+
 void gotoxy(int x, int y)
 {
 	COORD Cur;
@@ -203,64 +235,8 @@ int block[7][4][4][4] = {
 	}
 };
 
-int BlockRot = 0;
-
-#define LEFT 75
-#define RIGHT 77
-#define UP 72
-#define DOWN 80
-
-int BlockForm() {
-	srand(time(NULL));
-	int BlockForm = rand() % 6;
-	return BlockForm;
-}
-int BlockFormV = 0;
-
-void BlockEvent() {
-
-	if (_kbhit()) {
-		int a = _getch();
-		// 블럭 회전
-		if (a == UP) {
-			if (BlockRot > 3) {
-				BlockRot = 0;
-			}
-			else {
-				BlockRot++;
-			}
-		}
-
-		// 블럭이동
-		if (a == LEFT) {
-		}
-
-		// 블럭이동
-		if (a == RIGHT) {
-		}
-
-		// 블럭 내림(드랍)
-		if (a == DOWN) {
-		}
-	}
-}
-
-void BlankBlock() {
-
-}
-
-void DrawBlock(int x, int y) {
-
-}
-
-// 블럭이 천천히 떨어지는 원리 
 
 
-// 빈 블럭
-// 블럭그리기
-// 쉬기
-// 블럭그린곳 공백처리
-// 바로 다음좌표 y+1에 그리기
 
 
 
@@ -395,7 +371,7 @@ void mapload() {
 	int i, j;
 	for (i = 0; i < 21; i++) {
 		for (j = 0; j < 12; j++) {
-			if (map[i][j] == 1) {
+			if (map[i][j] == BLOCK) {
 				printf("\u25A0");
 			}
 			else {
@@ -409,7 +385,7 @@ void mapload() {
 int main(void) {
 	//
 	init();
-	// BGM();
+	BGM();
 	gamesize();
 	mapload();
 	deathline();
