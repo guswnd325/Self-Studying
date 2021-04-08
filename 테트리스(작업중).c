@@ -27,7 +27,7 @@ void KeyBoreadInput() {
 		case DOWN: {
 			break;
 		}
-		case LEFT: {
+		case LEFT: { 
 			break;
 		}
 		case RIGHT: {
