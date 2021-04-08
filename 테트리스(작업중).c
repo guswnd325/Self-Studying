@@ -5,9 +5,11 @@
 #include <conio.h>
 #include <MMsystem.h>
 #include <stdbool.h>
+clock_t startDropT, endT, startGroundT;
+int x = 8, y = 0;
 int blockForm;
 int blockRotation = 0;
-int key; 
+int key;
 #define UP 72
 #define LEFT 75
 #define RIGHT 77
@@ -241,10 +243,141 @@ int block[7][4][4][4] = {
 	}
 };
 
+// 충돌 확인
+bool CheckCrash(int x, int y) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (block[blockForm][blockRotation][i][j] == 1) {
+				int t = map[i + y][j + x / 2];
+				if (t == 1 || t == 2) { // 벽일 때, 블럭일 때
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+// 블럭 drop
+void DropBlock() {
+	endT = clock();
+	if ((float)(endT - startDropT) >= 800) {
+		if (CheckCrash(x, y + 1) == true) {
+			return; 
+		}
+		else {
+			y++;
+			startDropT = clock();
+			startGroundT = clock();
+			system("cls");
+		}
+	}
+}
+
+// 땅
+void BlockToGround() {
+	if (CheckCrash(x, y + 1) == true) {
+		if ((float)(endT - startGroundT) > 1500) {
+			// 현재 블록 저장
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					if (block[blockForm][blockRotation][i][j] == 1) {
+						map[i + y][j + x / 2] = 2;
+					}
+				}
+			}
+			x = 8;
+			y = 0;
+			CreateRandomForm();
+		}
+	}
+}
+
+// 1줄 라인 제거
+void RemoveLine() {
+	for (int i = 21; i >= 0; i--) { // 벽라인 제외한 값
+		int cnt = 0;
+		for (int j = 1; j < 11; j++) { //  12
+			if (map[i][j] == 2) {
+				cnt++;
+			}
+		}
+		if (cnt >= 10) { // 벽돌이 다 차있다면
+			for (int j = 0; i - j >= 0; j++) {
+				for (int x = 1; x < 11; x++) {
+					if (i - j - 1 >= 0)
+						map[i - j][x] = map[i - j - 1][x];
+					else      // 천장이면 0저장
+						map[i - j][x] = 0;
+				}
+			}
+		}
+	}
+}
+
+// 맵
+void DrawMap() {
+	gotoxy(0, 0);
+	for (int i = 0; i < 21; i++) {
+		for (int j = 0; j < 12; j++) {
+			if (map[i][j] == 1) {
+				gotoxy(j * 2, i);
+				printf("□");
+			}
+			else if (map[i][j] == 2) {
+				gotoxy(j * 2, i);
+				printf("■");
+			}
+		}
+	}
+}
+
+// 블럭그리기
+void DrawBlock() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (block[blockForm][blockRotation][i][j] == 1) {
+				gotoxy(x + j * 2, y + i);
+				printf("■");
+			}
+		}
+	}
+}
+
+// 키입력 받기
+void InputKey() {
+	if (_kbhit()) {
+		key = _getch();
+		switch (key) {
+		case 72: // space
+			blockRotation++;
+			if (blockRotation >= 4) blockRotation = 0;
+			startGroundT = clock();
+			break;
+		case 75: // left
+			if (CheckCrash(x - 2, y) == false) {
+				x -= 2;
+				startGroundT = clock();
+			}
+			break;
+		case 77: // right
+			if (CheckCrash(x + 2, y) == false) {
+				x += 2;
+				startGroundT = clock();
+			}
+			break;
+		case 80: // down
+			if (CheckCrash(x, y + 1) == false)
+				y++;
+			break;
+		}
+		system("cls");
+	}
+}
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
-	system("mode con cols=50 lines=20 || title 테트리스");
+	system("mode con cols=52 lines=22 || title 테트리스");
 }
 
 // 커서 이동 안보이게
@@ -339,15 +472,24 @@ void deathline() {
 
 }
 
-// 블럭
-
-
-
-
-
-
-int main(void) {
-	
+int main() {
+	init();
+	startDropT = clock();
+	CreateRandomForm();
+	gamesize();
+	BGM();
+	DrawMap();
+	deathline();
+	while (true) {
+		DrawMap();
+		Interface();
+		DrawBlock();
+		DropBlock();
+		BlockToGround();
+		RemoveLine();
+		InputKey();
+	}
+	return 0;
 }
 
 
