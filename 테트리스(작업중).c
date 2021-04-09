@@ -16,11 +16,13 @@ int a, b;
 int color = 0;
 int randscore = 0;
 
+// 0 ~ 150 랜덤 점수
 void RandomScore() {
 	srand(time(NULL));
-	randscore = rand() % 150 + 100;
+	randscore = rand() % 150;
 }
 
+// 키 입력 받기
 #define UP 72
 #define LEFT 75
 #define RIGHT 77
@@ -28,7 +30,7 @@ void RandomScore() {
 #define ESC 27
 #define DOWN 80
 
-// color
+// 블럭 색 지정
 #define RED "\033[31m"
 #define GREEN "\033[32m"
 #define YELLOW "\033[33m"
@@ -37,11 +39,13 @@ void RandomScore() {
 #define CR "\033[36m"
 #define dkanrjsk "\033[33m"
 
+// 랜덤한 색
 void randomcolor() {
 	srand(time(NULL));
 	color = rand() % 7 + 0;
 }
 
+// 맵
 int map[21][12] = {
 {1,0,0,0,0,0,0,0,0,0,0,1},
 {1,0,0,0,0,0,0,0,0,0,0,1},
@@ -66,17 +70,13 @@ int map[21][12] = {
 {1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-//int score() {
-	//gotoxy();
-
-//}
-
-
+// 랜덤 블럭
 void CreateRandomForm() {
 	srand(time(NULL));
 	blockForm = rand() % 7;
 }
 
+// 커서이동
 void gotoxy(int x, int y)
 {
 	COORD Cur;
@@ -85,6 +85,7 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
 }
 
+// 블럽 4차원 배열
 int block[7][4][4][4] = {
 
 	{ // ㅗ모양 블럭
@@ -274,6 +275,7 @@ int block[7][4][4][4] = {
 	}
 };
 
+// 점수 업데이트
 int DrawScore() {
 	gotoxy(39,15);
 	printf("%d", score);
@@ -502,11 +504,13 @@ void Interface() {
 	printf("점수  :");
 }
 
+// 개발자
 void developer() {
 	gotoxy(28, 17);
 	printf(" 개발자 : HyeonJoong ");
 }
 
+// 데드라인
 void deathline() {
 	gotoxy(25, 0);
 	printf("-- OutLine");
@@ -534,6 +538,7 @@ void deathline() {
 
 }
 
+// 메인함수
 int main() {
 	init();
 	startDropT = clock();
