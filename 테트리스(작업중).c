@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <MMsystem.h>
 #include <stdbool.h>
+
 clock_t startDropT, endT, startGroundT;
 int x = 8, y = 0;
 int blockForm;
@@ -12,12 +13,34 @@ int blockRotation = 0;
 int key;
 int score = 0;
 int a, b;
+int color = 0;
+int randscore = 0;
+
+void RandomScore() {
+	srand(time(NULL));
+	randscore = rand() % 150 + 100;
+}
+
 #define UP 72
 #define LEFT 75
 #define RIGHT 77
 #define SPACE 32
 #define ESC 27
 #define DOWN 80
+
+// color
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define qhfk "\033[35m"
+#define CR "\033[36m"
+#define dkanrjsk "\033[33m"
+
+void randomcolor() {
+	srand(time(NULL));
+	color = rand() % 7 + 0;
+}
 
 int map[21][12] = {
 {1,0,0,0,0,0,0,0,0,0,0,1},
@@ -251,6 +274,11 @@ int block[7][4][4][4] = {
 	}
 };
 
+int DrawScore() {
+	gotoxy(39,15);
+	printf("%d", score);
+}
+
 // 충돌 확인
 bool CheckCrash(int x, int y) {
 	for (int i = 0; i < 4; i++) {
@@ -285,7 +313,7 @@ void DropBlock() {
 // 땅
 void BlockToGround() {
 	if (CheckCrash(x, y + 1) == true) {
-		if ((float)(endT - startGroundT) > 1500) {
+		if ((float)(endT - startGroundT) > 1000) {
 			// 현재 블록 저장
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
@@ -297,9 +325,11 @@ void BlockToGround() {
 			x = 8;
 			y = 0;
 			CreateRandomForm();
+			randomcolor();
 		}
 	}
 }
+
 
 // 1줄 라인 제거
 void RemoveLine() {
@@ -319,6 +349,7 @@ void RemoveLine() {
 						map[i - j][x] = 0;
 				}
 			}
+			score += randscore;
 		}
 	}
 }
@@ -345,8 +376,31 @@ void DrawBlock() {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			if (block[blockForm][blockRotation][i][j] == 1) {
+				if (color == 0) {
+					printf(RED);
+				}
+				if (color == 1) {
+					printf(GREEN);
+				}
+				if (color == 2) {
+					printf(YELLOW);
+				}
+				if (color == 3) {
+					printf(CR);
+				}
+				if (color == 4) {
+					printf(dkanrjsk);
+				}
+				if (color == 5) {
+					printf(qhfk);
+				}
+				if (color == 6) {
+					printf(BLUE);
+				}
 				gotoxy(x + j * 2, y + i);
 				printf("■");
+				printf("\033[0m");
+			
 			}
 		}
 	}
@@ -397,9 +451,9 @@ void init() {
 }
 
 // 배경음악
-/*void BGM() {
-	PlaySound(TEXT("경로"), NULL, SND_ASYNC);
-}*/
+void BGM() {
+	PlaySound(TEXT("C:\\Users\\user\\Desktop\\hyeonjoong\\rhythm\\tetris.wav"), NULL, SND_ASYNC);
+}
 
 // 인터페이스
 void Interface() {
@@ -487,8 +541,10 @@ int main() {
 	gamesize();
 	DrawMap();
 	Interface();
+	DrawScore();
 	developer();
 	deathline();
+	BGM();
 
 	while (true) {
 		DrawMap();
@@ -498,9 +554,11 @@ int main() {
 		DropBlock();
 		BlockToGround();
 		RemoveLine();
+		RandomScore();
+		DrawScore();
 		InputKey();
 	}
-
+	
 	return 0;
 }
 
