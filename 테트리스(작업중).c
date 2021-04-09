@@ -11,7 +11,7 @@ int blockForm;
 int blockRotation = 0;
 int key;
 int score = 0;
-int a,b;
+int a, b;
 #define UP 72
 #define LEFT 75
 #define RIGHT 77
@@ -43,10 +43,10 @@ int map[21][12] = {
 {1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-int score() {
-gotoxy();
-	
-}
+//int score() {
+	//gotoxy();
+
+//}
 
 
 void CreateRandomForm() {
@@ -271,7 +271,7 @@ void DropBlock() {
 	endT = clock();
 	if ((float)(endT - startDropT) >= 800) {
 		if (CheckCrash(x, y + 1) == true) {
-			return; 
+			return;
 		}
 		else {
 			y++;
@@ -397,9 +397,9 @@ void init() {
 }
 
 // 배경음악
-void BGM() {
+/*void BGM() {
 	PlaySound(TEXT("경로"), NULL, SND_ASYNC);
-}
+}*/
 
 // 인터페이스
 void Interface() {
@@ -485,20 +485,22 @@ int main() {
 	startDropT = clock();
 	CreateRandomForm();
 	gamesize();
-	BGM();
 	DrawMap();
+	Interface();
+	developer();
 	deathline();
-	
+
 	while (true) {
 		DrawMap();
 		Interface();
+		developer();
 		DrawBlock();
 		DropBlock();
 		BlockToGround();
 		RemoveLine();
 		InputKey();
 	}
-	
+
 	return 0;
 }
 
