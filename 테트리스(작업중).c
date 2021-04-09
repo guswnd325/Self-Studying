@@ -71,7 +71,7 @@ int map[21][12] = {
 };
 
 // 랜덤 블럭
-void CreateRandomForm() {
+void RandomBlockForm() {
 	srand(time(NULL));
 	blockForm = rand() % 7;
 }
@@ -277,16 +277,17 @@ int block[7][4][4][4] = {
 
 // 점수 업데이트
 int DrawScore() {
-	gotoxy(39,15);
+	gotoxy(39, 15);
 	printf("%d", score);
 }
+
 
 // 충돌 확인
 bool CheckCrash(int x, int y) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			if (block[blockForm][blockRotation][i][j] == 1) {
-				int t = map[i + y][j + x / 2];
+			if (block[blockForm][blockRotation][i][j] == 1) { // block이 1이라면,
+				int t = map[i + y][j + x / 2]; // t = 맵[i
 				if (t == 1 || t == 2) { // 벽일 때, 블럭일 때
 					return true;
 				}
@@ -326,7 +327,7 @@ void BlockToGround() {
 			}
 			x = 8;
 			y = 0;
-			CreateRandomForm();
+			RandomBlockForm();
 			randomcolor();
 		}
 	}
@@ -402,7 +403,7 @@ void DrawBlock() {
 				gotoxy(x + j * 2, y + i);
 				printf("■");
 				printf("\033[0m");
-			
+
 			}
 		}
 	}
@@ -413,7 +414,7 @@ void InputKey() {
 	if (_kbhit()) {
 		key = _getch();
 		switch (key) {
-		case 72: // space
+		case 72: // UP
 			blockRotation++;
 			if (blockRotation >= 4) blockRotation = 0;
 			startGroundT = clock();
@@ -454,7 +455,7 @@ void init() {
 
 // 배경음악
 void BGM() {
-	PlaySound(TEXT("C:\\Users\\user\\Desktop\\hyeonjoong\\rhythm\\tetris.wav"), NULL, SND_ASYNC);
+	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
 }
 
 // 인터페이스
@@ -542,7 +543,7 @@ void deathline() {
 int main() {
 	init();
 	startDropT = clock();
-	CreateRandomForm();
+	RandomBlockForm();
 	gamesize();
 	DrawMap();
 	Interface();
@@ -564,7 +565,7 @@ int main() {
 		DrawScore();
 		InputKey();
 	}
-	
+
 	return 0;
 }
 
