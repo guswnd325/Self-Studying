@@ -547,6 +547,7 @@ int main() {
 	BGM();
 
 	while (true) {
+		init();
 		DrawMap();
 		Interface();
 		developer();
