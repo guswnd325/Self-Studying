@@ -10,6 +10,8 @@ int x = 8, y = 0;
 int blockForm;
 int blockRotation = 0;
 int key;
+int score = 0;
+int a,b;
 #define UP 72
 #define LEFT 75
 #define RIGHT 77
@@ -40,6 +42,12 @@ int map[21][12] = {
 {1,0,0,0,0,0,0,0,0,0,0,1},
 {1,1,1,1,1,1,1,1,1,1,1,1}
 };
+
+int score() {
+gotoxy();
+	
+}
+
 
 void CreateRandomForm() {
 	srand(time(NULL));
@@ -390,7 +398,7 @@ void init() {
 
 // 배경음악
 void BGM() {
-	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\fuwafuwa.wav"), NULL, SND_ASYNC);
+	PlaySound(TEXT("경로"), NULL, SND_ASYNC);
 }
 
 // 인터페이스
@@ -480,6 +488,7 @@ int main() {
 	BGM();
 	DrawMap();
 	deathline();
+	
 	while (true) {
 		DrawMap();
 		Interface();
@@ -489,6 +498,7 @@ int main() {
 		RemoveLine();
 		InputKey();
 	}
+	
 	return 0;
 }
 
