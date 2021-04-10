@@ -12,12 +12,12 @@ int blockForm;
 int blockRotation = 0;
 int key;
 int score = 0;
-int a, b;
 int color = 0;
 int line = 0;
 int gameend = 0;
 int musicend = 0;
 int regame = 0;
+int groundblockcolor = 0;
 
 // 키 입력 받기
 #define UP 72
@@ -294,9 +294,9 @@ void DrawLine() {
 bool CheckCrash(int x, int y) { // x,y 를 매개변수로 받음.
 	for (int row = 0; row < 4; row++) { // y값 검사
 		for (int cols = 0; cols < 4; cols++) { // x값 검사
-			if (block[blockForm][blockRotation][row][cols] == 1) { // 검사중 1값이 보이면
+			if (block[blockForm][blockRotation][row][cols] == 1) { // 블럭 1값을 찾으면,
 				int scan = map[row + y][cols + x / 2]; // scan변수 선언,  scan변수는 맵의[][]의 값을 가지며 if문을 들어가 검사함. 
-				if (scan == 1 || scan == 2) { // 그래서 1이나 2가 감지되면, 
+				if (scan == 1 || scan == 2 || scan == 3 || scan == 4 || scan == 5 || scan == 6 || scan == 7 || scan == 8) { // 그래서 1이나 2가 감지되면, 
 					return true; // true값을 반환, 
 				}
 			}
@@ -326,10 +326,31 @@ void BlockToGround(int timeA) {
 	if (CheckCrash(x, y + 1) == true) { // 만약 아래에 충돌이있으면.
 		if ((endTime - mapTime) > timeA) { // end-T - startGround값이 > 1000 즉 1초보다 크다면
 			// 현재 블럭모양으로
+			if (color == 0) {
+				groundblockcolor = 2;
+			}
+			if (color == 1) {
+				groundblockcolor = 3;
+			}
+			if (color == 2) {
+				groundblockcolor = 4;
+			}
+			if (color == 3) {
+				groundblockcolor = 5;
+			}
+			if (color == 4) {
+				groundblockcolor = 6;
+			}
+			if (color == 5) {
+				groundblockcolor = 7;
+			}
+			if (color == 6) {
+				groundblockcolor = 8;
+			}
 			for (int row = 0; row < 4; row++) {
 				for (int cols = 0; cols < 4; cols++) {
 					if (block[blockForm][blockRotation][row][cols] == 1) {
-						map[row + y][cols + x / 2] = 2; // 맵에 2로 채우도록함.
+						map[row + y][cols + x / 2] = groundblockcolor; // 맵에 2로 채우도록함.
 					}
 				}
 			}
@@ -347,11 +368,10 @@ void RemoveLine() {
 	for (int row = 21; row >= 0; row--) { // 22
 		int count = 0;
 		for (int cols = 1; cols < 12; cols++) { //  10
-			if (map[row][cols] == 2) { // 맵의 아래쪽부터 위로 검사함. 2발견시
+			if (map[row][cols] == 2 || map[row][cols] == 3 || map[row][cols] == 4 || map[row][cols] == 5 || map[row][cols] == 6 || map[row][cols] == 7 || map[row][cols] == 8) { // 맵의 아래쪽부터 위로 검사함. 2발견시
 				count++; // count++;
 			}
 		}
-
 		if (count >= 10) { // 벽돌이 다 차있다면
 			for (int row2 = 0; row2 <= 21; row2++) {
 				for (int del = 1; del < 11; del++) {
@@ -371,7 +391,7 @@ void RemoveLine() {
 void gameover() {
 	for (int row = 0; row < 2; row++) {
 		for (int cols = 0; cols < 12; cols++) {
-			if (map[row][cols] == 2) {
+			if (map[row][cols] == 2 || map[row][cols] == 3 || map[row][cols] == 4 || map[row][cols] == 5 || map[row][cols] == 6 || map[row][cols] == 7 || map[row][cols] == 8) {
 				gotoxy(8, 8);
 				printf(RED);
 				printf("GAME OVER!");
@@ -392,8 +412,46 @@ void DrawMap() {
 				printf("□");
 			}
 			else if (map[row][cols] == 2) {
+				printf(RED);
 				gotoxy(cols * 2, row); // 블럭
 				printf("■");
+				printf("\033[0m");
+			}
+			else if (map[row][cols] == 3) {
+				printf(GREEN);
+				gotoxy(cols * 2, row); // 블럭
+				printf("■");
+				printf("\033[0m");
+			}
+			else if (map[row][cols] == 4) {
+				printf(YELLOW);
+				gotoxy(cols * 2, row); // 블럭
+				printf("■");
+				printf("\033[0m");
+			}
+			else if (map[row][cols] == 5) {
+				printf(CR);
+				gotoxy(cols * 2, row); // 블럭
+				printf("■");
+				printf("\033[0m");
+			}
+			else if (map[row][cols] == 6) {
+				printf(dkanrjsk);
+				gotoxy(cols * 2, row); // 블럭
+				printf("■");
+				printf("\033[0m");
+			}
+			else if (map[row][cols] == 7) {
+				printf(qhfk);
+				gotoxy(cols * 2, row); // 블럭
+				printf("■");
+				printf("\033[0m");
+			}
+			else if (map[row][cols] == 8) {
+				printf(BLUE);
+			gotoxy(cols * 2, row); // 블럭
+			printf("■");
+			printf("\033[0m");
 			}
 		}
 	}
@@ -491,7 +549,6 @@ void InputKey() {
 			system("cls");
 			break;
 		}
-
 		}
 		system("cls"); // 콘솔 창 지우기
 	}
@@ -625,6 +682,7 @@ int main() {
 		DropBlock();
 		gameover();
 		if (gameend == 1) {
+			Sleep(3000);
 			return 0;
 		}
 		BlockToGround(1000);
