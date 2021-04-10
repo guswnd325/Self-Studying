@@ -17,6 +17,7 @@ int color = 0;
 int line = 0;
 int gameend = 0;
 int musicend = 0;
+int regame = 0;
 
 // 키 입력 받기
 #define UP 72
@@ -321,9 +322,9 @@ void DropBlock() {
 }
 
 // 땅
-void BlockToGround() {
+void BlockToGround(int timeA) {
 	if (CheckCrash(x, y + 1) == true) { // 만약 아래에 충돌이있으면.
-		if ((endTime - mapTime) > 1000) { // end-T - startGround값이 > 1000 즉 1초보다 크다면
+		if ((endTime - mapTime) > timeA) { // end-T - startGround값이 > 1000 즉 1초보다 크다면
 			// 현재 블럭모양으로
 			for (int row = 0; row < 4; row++) {
 				for (int cols = 0; cols < 4; cols++) {
@@ -368,7 +369,7 @@ void RemoveLine() {
 
 // 맨 윗줄에 블럭이 감지되면 게임 종료
 void gameover() {
-	for (int row = 0; row < 1; row++) {
+	for (int row = 0; row < 2; row++) {
 		for (int cols = 0; cols < 12; cols++) {
 			if (map[row][cols] == 2) {
 				gotoxy(8, 8);
@@ -385,12 +386,12 @@ void gameover() {
 void DrawMap() {
 	gotoxy(0, 0);
 	for (int row = 0; row < 21; row++) {
-		for (int  cols = 0; cols < 12; cols++) {
+		for (int cols = 0; cols < 12; cols++) {
 			if (map[row][cols] == 1) { // 벽
 				gotoxy(cols * 2, row);
 				printf("□");
 			}
-			else if (map[row][cols] == 2) { 
+			else if (map[row][cols] == 2) {
 				gotoxy(cols * 2, row); // 블럭
 				printf("■");
 			}
@@ -439,15 +440,22 @@ void InputKey() {
 		key = _getch(); // key변수안에 _getch 입력값을 저장한다.
 		switch (key) { // 스위치문
 		case 72: {// UP
+			if (CheckCrash(x + 2, y) == false && CheckCrash(x, y + 1) == false && CheckCrash(x - 2, y) == false) {
 				blockRotation++;
+			}
 				if (blockRotation >= 4)
 				{
 					blockRotation = 0;
 					mapTime = clock();
 				}
-			break;
+			else {
+				if (blockRotation >= 4) {
+					blockRotation = 0;
+					mapTime = clock();
+				}
+				break;
+			}
 		}
-
 		case 75: {// 왼쪽 화살표 키
 			if (CheckCrash(x - 2, y) == false) {
 				x -= 2; // 왼쪽 충돌검사 x - 2(자릿수)
@@ -467,6 +475,23 @@ void InputKey() {
 				y++;
 			break;
 		}
+		case 32: {
+			while (CheckCrash(x, y + 1) == false) {
+				y++;
+			}
+			BlockToGround(0);
+			break;
+		}
+		case 27: {
+			system("pause");
+			break;
+		}
+		case 101: {
+			gameend = 1;
+			system("cls");
+			break;
+		}
+
 		}
 		system("cls"); // 콘솔 창 지우기
 	}
@@ -486,8 +511,6 @@ void CursorRemove() {
 	cursorinfo.bVisible = 0;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorinfo);
 }
-
-// 배경음악
 
 // 인터페이스
 void Interface() {
@@ -526,10 +549,16 @@ void Interface() {
 	printf("조작법");
 	gotoxy(28, 7);
 	printf("← , → : 블럭 이동");
-	gotoxy(30, 9);
+	gotoxy(30, 8);
 	printf("↑ : 블럭 회전");
-	gotoxy(30, 11);
+	gotoxy(30, 9);
 	printf("↓ : 블럭 놓기");
+	gotoxy(32, 10);
+	printf("space : 드랍");
+	gotoxy(31, 11);
+	printf("esc : 멈춰!");
+	gotoxy(33, 12);
+	printf("e = 종료");
 
 	// 점수
 	gotoxy(30, 15);
@@ -572,6 +601,7 @@ void deathline() {
 
 }
 
+
 // 메인함수
 int main() {
 	system("title 테트리스");
@@ -584,24 +614,24 @@ int main() {
 	DrawScore();
 	developer();
 	deathline();
-	
+
 
 	// 콘솔 업데이트 반복
 	while (1) {
-			DrawMap();
-			Interface();
-			developer();
-			DrawBlock();
-			DropBlock();
-			gameover();
-			if (gameend == 1) {
-				return 0;
-			}
-			BlockToGround();
-			RemoveLine();
-			DrawScore();
-			DrawLine();
-			InputKey();
+		DrawMap();
+		Interface();
+		developer();
+		DrawBlock();
+		DropBlock();
+		gameover();
+		if (gameend == 1) {
+			return 0;
+		}
+		BlockToGround(1000);
+		RemoveLine();
+		DrawScore();
+		DrawLine();
+		InputKey();
 	}
 	return 0;
 }
