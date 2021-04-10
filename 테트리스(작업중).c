@@ -6,7 +6,7 @@
 #include <MMsystem.h>
 #include <stdbool.h>
 
-clock_t startDropT, endT, startGroundT;
+clock_t DownBlockTime, endTime, mapTime;
 int x = 8, y = 0;
 int blockForm;
 int blockRotation = 0;
@@ -306,15 +306,15 @@ bool CheckCrash(int x, int y) { // x,y 를 매개변수로 받음.
 
 // 블럭 drop
 void DropBlock() {
-	endT = clock(); // endT 시간재기
-	if ((endT - startDropT) >= 800) { // endT - startDropT 블럭이나온지 0.8 초뒤 0.8초마다 내려감 y + 1
+	endTime = clock(); // endTime 시간재기
+	if ((endTime - DownBlockTime) >= 800) { // endTime - DownBlockTime 블럭이나온지 0.8 초뒤 0.8초마다 내려감 y + 1
 		if (CheckCrash(x, y + 1) == true) { // x = 8 , y + 1 = 아래칸이 충돌했을 때.
 			return; // 함수종료.
 		}
 		else {
 			y++; // y값,
-			startDropT = clock(); // 시간재기
-			startGroundT = clock(); // 시간재기
+			DownBlockTime = clock(); // 시간재기
+			mapTime = clock(); // 시간재기
 			system("cls"); // cls 콘솔 클리어 전 블럭 지우기.
 		}
 	}
@@ -323,7 +323,7 @@ void DropBlock() {
 // 땅
 void BlockToGround() {
 	if (CheckCrash(x, y + 1) == true) { // 만약 아래에 충돌이있으면.
-		if ((endT - startGroundT) > 1000) { // end-T - startGround값이 > 1000 즉 1초보다 크다면
+		if ((endTime - mapTime) > 1000) { // end-T - startGround값이 > 1000 즉 1초보다 크다면
 			// 현재 블럭모양으로
 			for (int row = 0; row < 4; row++) {
 				for (int cols = 0; cols < 4; cols++) {
@@ -352,11 +352,11 @@ void RemoveLine() {
 		}
 
 		if (count >= 10) { // 벽돌이 다 차있다면
-			for (int cols = 0; cols <= 21; cols++) {
+			for (int row2 = 0; row2 <= 21; row2++) {
 				for (int del = 1; del < 11; del++) {
-					if (row - cols - 1 >= 0)
+					if (row - row2 - 1 >= 0)
 					{
-						map[row - cols][del] = map[row - cols - 1][del];
+						map[row - row2][del] = map[row - row2 - 1][del];
 					}
 				}
 			}
@@ -443,7 +443,7 @@ void InputKey() {
 				if (blockRotation >= 4)
 				{
 					blockRotation = 0;
-					startGroundT = clock();
+					mapTime = clock();
 				}
 			break;
 		}
@@ -451,14 +451,14 @@ void InputKey() {
 		case 75: {// 왼쪽 화살표 키
 			if (CheckCrash(x - 2, y) == false) {
 				x -= 2; // 왼쪽 충돌검사 x - 2(자릿수)
-				startGroundT = clock();
+				mapTime = clock();
 			}
 			break;
 		}
 		case 77: { // 오른쪽 화살표 키
 			if (CheckCrash(x + 2, y) == false) { // 오른쪽 충돌검사 false = x+= 2  ? + 사용한 블럭 유니코드의 자릿수가 2이므로.
 				x += 2;
-				startGroundT = clock();
+				mapTime = clock();
 			}
 			break;
 		}
@@ -576,7 +576,7 @@ void deathline() {
 int main() {
 	system("title 테트리스");
 	CursorRemove();
-	startDropT = clock();
+	DownBlockTime = clock();
 	RandomBlockForm();
 	gamesize();
 	DrawMap();
@@ -594,14 +594,14 @@ int main() {
 			DrawBlock();
 			DropBlock();
 			gameover();
+			if (gameend == 1) {
+				return 0;
+			}
 			BlockToGround();
 			RemoveLine();
 			DrawScore();
 			DrawLine();
 			InputKey();
-			if (gameend == 1) {
-				return 0;
-			}
 	}
 	return 0;
 }
