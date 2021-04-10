@@ -15,15 +15,8 @@ int score = 0;
 int a, b;
 int color = 0;
 int line = 0;
-int randscore = 0;
 int gameend = 0;
 int musicend = 0;
-
-// 0 ~ 150 랜덤 점수
-void RandomScore() {
-	srand(time(NULL));
-	randscore = rand() % 150;
-}
 
 // 키 입력 받기
 #define UP 72
@@ -367,7 +360,7 @@ void RemoveLine() {
 					}
 				}
 			}
-			score += randscore; // 라인이 없어지고나면 score(점수)를 +=
+			score += 100; // 라인이 없어지고나면 score(점수)를 +=
 			line += 1; // 라인이 없어지고 나면 line을 +=
 		}
 	}
@@ -451,7 +444,6 @@ void InputKey() {
 				{
 					blockRotation = 0;
 					startGroundT = clock();
-					break;
 				}
 			break;
 		}
@@ -496,9 +488,6 @@ void CursorRemove() {
 }
 
 // 배경음악
-void BGM() {
-	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
-}
 
 // 인터페이스
 void Interface() {
@@ -595,7 +584,7 @@ int main() {
 	DrawScore();
 	developer();
 	deathline();
-	BGM();
+	
 
 	// 콘솔 업데이트 반복
 	while (1) {
@@ -604,13 +593,12 @@ int main() {
 			developer();
 			DrawBlock();
 			DropBlock();
+			gameover();
 			BlockToGround();
 			RemoveLine();
-			RandomScore();
 			DrawScore();
 			DrawLine();
 			InputKey();
-			gameover();
 			if (gameend == 1) {
 				return 0;
 			}
