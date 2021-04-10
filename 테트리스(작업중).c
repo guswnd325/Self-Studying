@@ -17,6 +17,7 @@ int color = 0;
 int line = 0;
 int randscore = 0;
 int gameend = 0;
+int musicend = 0;
 
 // 0 ~ 150 랜덤 점수
 void RandomScore() {
@@ -72,11 +73,13 @@ int map[21][12] = {
 {1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+
 // 랜덤 블럭
 void RandomBlockForm() {
 	srand(time(NULL));
 	blockForm = rand() % 7;
 }
+
 
 // 커서이동
 void gotoxy(int x, int y)
@@ -86,6 +89,7 @@ void gotoxy(int x, int y)
 	Cur.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
 }
+
 
 // 블럽 4차원 배열
 int block[7][4][4][4] = {
@@ -277,11 +281,13 @@ int block[7][4][4][4] = {
 	}
 };
 
+
 // 점수 업데이트
 void DrawScore() {
 	gotoxy(39, 15);
 	printf("%d", score);
 }
+
 
 // 점수 업데이트
 void DrawLine() {
@@ -292,10 +298,10 @@ void DrawLine() {
 
 // 충돌 확인
 bool CheckCrash(int x, int y) { // x,y 를 매개변수로 받음.
-	for (int i = 0; i < 4; i++) { // y값 검사
-		for (int j = 0; j < 4; j++) { // x값 검사
-			if (block[blockForm][blockRotation][i][j] == 1) { // 검사중 1값이 보이면
-				int scan = map[i + y][j + x / 2]; // scan변수 선언,  scan변수는 맵의[][]의 값을 가지며 if문을 들어가 검사함. 
+	for (int row = 0; row < 4; row++) { // y값 검사
+		for (int cols = 0; cols < 4; cols++) { // x값 검사
+			if (block[blockForm][blockRotation][row][cols] == 1) { // 검사중 1값이 보이면
+				int scan = map[row + y][cols + x / 2]; // scan변수 선언,  scan변수는 맵의[][]의 값을 가지며 if문을 들어가 검사함. 
 				if (scan == 1 || scan == 2) { // 그래서 1이나 2가 감지되면, 
 					return true; // true값을 반환, 
 				}
@@ -308,7 +314,7 @@ bool CheckCrash(int x, int y) { // x,y 를 매개변수로 받음.
 // 블럭 drop
 void DropBlock() {
 	endT = clock(); // endT 시간재기
-	if ((float)(endT - startDropT) >= 800) { // endT - startDropT 블럭이나온지 0.8 초뒤 0.8초마다 내려감 y + 1
+	if ((endT - startDropT) >= 800) { // endT - startDropT 블럭이나온지 0.8 초뒤 0.8초마다 내려감 y + 1
 		if (CheckCrash(x, y + 1) == true) { // x = 8 , y + 1 = 아래칸이 충돌했을 때.
 			return; // 함수종료.
 		}
@@ -324,13 +330,12 @@ void DropBlock() {
 // 땅
 void BlockToGround() {
 	if (CheckCrash(x, y + 1) == true) { // 만약 아래에 충돌이있으면.
-		if ((float)(endT - startGroundT) > 1000) { // end-T - startGround값이 > 1000 즉 1초
-			// + 보다 크다면
-			// 현재 블록 저장
-			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 4; j++) {
-					if (block[blockForm][blockRotation][i][j] == 1) {
-						map[i + y][j + x / 2] = 2; // 맵에 2로 채우도록함.
+		if ((endT - startGroundT) > 1000) { // end-T - startGround값이 > 1000 즉 1초보다 크다면
+			// 현재 블럭모양으로
+			for (int row = 0; row < 4; row++) {
+				for (int cols = 0; cols < 4; cols++) {
+					if (block[blockForm][blockRotation][row][cols] == 1) {
+						map[row + y][cols + x / 2] = 2; // 맵에 2로 채우도록함.
 					}
 				}
 			}
@@ -345,24 +350,20 @@ void BlockToGround() {
 
 // 1줄 라인 제거
 void RemoveLine() {
-	for (int i = 21; i >= 0; i--) { // 22
+	for (int row = 21; row >= 0; row--) { // 22
 		int count = 0;
-		for (int j = 1; j < 12; j++) { //  10
-			if (map[i][j] == 2) { // 맵의 아래쪽부터 위로 검사함. 2발견시
+		for (int cols = 1; cols < 12; cols++) { //  10
+			if (map[row][cols] == 2) { // 맵의 아래쪽부터 위로 검사함. 2발견시
 				count++; // count++;
 			}
 		}
 
 		if (count >= 10) { // 벽돌이 다 차있다면
-			for (int j = 0; i - j >= 0; j++) { // 12,11,10......
-				for (int x = 1; x < 11; x++) { 
-					if (i - j - 1 >= 0) 
+			for (int cols = 0; cols <= 21; cols++) {
+				for (int del = 1; del < 11; del++) {
+					if (row - cols - 1 >= 0)
 					{
-						map[i - j][x] = map[i - j - 1][x];
-					}
-					else 
-					{      // 천장이면 0저장
-						map[i - j][x] = 0;
+						map[row - cols][del] = map[row - cols - 1][del];
 					}
 				}
 			}
@@ -374,9 +375,9 @@ void RemoveLine() {
 
 // 맨 윗줄에 블럭이 감지되면 게임 종료
 void gameover() {
-	for (int j = 0; j < 1; j++) {
-		for (int i = 0; i < 12; i++) {
-			if (map[j][i] == 2) {
+	for (int row = 0; row < 1; row++) {
+		for (int cols = 0; cols < 12; cols++) {
+			if (map[row][cols] == 2) {
 				gotoxy(8, 8);
 				printf(RED);
 				printf("GAME OVER!");
@@ -390,14 +391,14 @@ void gameover() {
 // 맵 그리기
 void DrawMap() {
 	gotoxy(0, 0);
-	for (int i = 0; i < 21; i++) {
-		for (int j = 0; j < 12; j++) {
-			if (map[i][j] == 1) { // 벽
-				gotoxy(j * 2, i);
+	for (int row = 0; row < 21; row++) {
+		for (int  cols = 0; cols < 12; cols++) {
+			if (map[row][cols] == 1) { // 벽
+				gotoxy(cols * 2, row);
 				printf("□");
 			}
-			else if (map[i][j] == 2) { 
-				gotoxy(j * 2, i); // 블럭
+			else if (map[row][cols] == 2) { 
+				gotoxy(cols * 2, row); // 블럭
 				printf("■");
 			}
 		}
@@ -406,9 +407,9 @@ void DrawMap() {
 
 // 블럭그리기
 void DrawBlock() {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			if (block[blockForm][blockRotation][i][j] == 1) { // block값이 1일떄 == block이 잇을때
+	for (int row = 0; row < 4; row++) {
+		for (int cols = 0; cols < 4; cols++) {
+			if (block[blockForm][blockRotation][row][cols] == 1) { // block값이 1일떄 == block이 잇을때
 				if (color == 0) {
 					printf(RED);
 				}
@@ -430,7 +431,7 @@ void DrawBlock() {
 				if (color == 6) {
 					printf(BLUE);
 				}
-				gotoxy((x + j * 2), (y + i)); // 지정된 색으로 블럭을그림. x = 8, y = 0 (4x4)
+				gotoxy((x + cols * 2), (y + row)); // 지정된 색으로 블럭을그림. x = 8, y = 0 (4x4)
 				printf("■");
 				printf("\033[0m"); // 색깔 효과 없애기
 
@@ -457,7 +458,7 @@ void InputKey() {
 
 		case 75: {// 왼쪽 화살표 키
 			if (CheckCrash(x - 2, y) == false) {
-				x -= 2;
+				x -= 2; // 왼쪽 충돌검사 x - 2(자릿수)
 				startGroundT = clock();
 			}
 			break;
@@ -477,11 +478,13 @@ void InputKey() {
 		}
 		system("cls"); // 콘솔 창 지우기
 	}
+	return;
 }
 
 // 콘솔 창 크기 및 타이틀
 void gamesize() {
-	system("mode con cols=52 lines=22 || title 테트리스");
+	system("mode con cols=52 lines=22");
+	system("title 테트리스");
 }
 
 // 커서 이동 안보이게
@@ -494,7 +497,7 @@ void CursorRemove() {
 
 // 배경음악
 void BGM() {
-	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\fuwafuwa.wav"), NULL, SND_ASYNC);
+	PlaySound(TEXT("C:\\Users\\gksrp\\Desktop\\44\\23\\ju.wav"), NULL, SND_ASYNC);
 }
 
 // 인터페이스
@@ -582,6 +585,7 @@ void deathline() {
 
 // 메인함수
 int main() {
+	system("title 테트리스");
 	CursorRemove();
 	startDropT = clock();
 	RandomBlockForm();
@@ -594,26 +598,23 @@ int main() {
 	BGM();
 
 	// 콘솔 업데이트 반복
-	while (true) {
-		CursorRemove();
-		DrawMap();
-		Interface();
-		developer();
-		DrawBlock();
-		DropBlock();
-		BlockToGround();
-		RemoveLine();
-		RandomScore();
-		DrawScore();
-		DrawLine();
-		InputKey();
-		gameover();
-		if (gameend == 1) {
-			return 0;
-		}
-		
+	while (1) {
+			DrawMap();
+			Interface();
+			developer();
+			DrawBlock();
+			DropBlock();
+			BlockToGround();
+			RemoveLine();
+			RandomScore();
+			DrawScore();
+			DrawLine();
+			InputKey();
+			gameover();
+			if (gameend == 1) {
+				return 0;
+			}
 	}
-
 	return 0;
 }
 
