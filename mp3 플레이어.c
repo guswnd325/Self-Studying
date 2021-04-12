@@ -3,7 +3,7 @@
 
 
 #pragma comment(lib, "winmm.lib")
-#include "Mmsystem.h"
+#include "mmsystem.h"
 #include "Digitalv.h"
 MCI_OPEN_PARMS m_mciOpenParms;
 MCI_PLAY_PARMS m_mciPlayParms;
@@ -31,6 +31,7 @@ int main()
     while (1) {
         Sleep(100);
     }
+}
 
-  
+
 
